@@ -8,6 +8,9 @@
         .errBtn{
             display: none;
         }
+        #id_eveManager{
+            display: none;
+        }
     </style>
 
     <div class="container my-5">
@@ -46,7 +49,8 @@
 
     <script>
         
-           
+        //    Logic to check whether the startDate is less than the endDate starts here
+        
             let btn = document.getElementById('errorBrn');
 
             function result(){
@@ -72,6 +76,12 @@
                 }
             });
 
+        //  Logic to check whether the startDate is less than the endDate starts here
+
+
+
+        //  Logic for startDate and endDate should be equal to today's date only and not
+        //  previous date start's here
 
             $(document).ready(function(){
 
@@ -92,6 +102,9 @@
                 $('#id_endDate').attr('min',maxDate);
             });
         
+        //  Logic for startDate and endDate should be equal to today's date only and not
+        //  previous date end's here
+
         
 
     </script>

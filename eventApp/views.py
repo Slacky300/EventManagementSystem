@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from . forms import EventPlaceFrm, CreateEventFrm
-from . models import EventPlace
+from . models import EventPlace, CreatEvent
 from django.contrib import messages
 # Create your views here.
 def home(request):
@@ -38,7 +38,11 @@ def places(request):
 def createEvent(request):
 
     venue = EventPlace.objects.all()
-    frm = CreateEventFrm()
+    
+    ints = {
+        'eveManager' : request.user 
+    }
+    frm = CreateEventFrm(initial=ints)
     context = {
         'venue' : venue,
         'form' : frm,
@@ -53,6 +57,7 @@ def createEvent(request):
                     venueX.save()
                     frm.save()
                     messages.success(request,'Submitted Successfully')
+                    frm.clean()
                     return redirect('createEvent')
         except:
             messages.error(request,'Failed to submit')

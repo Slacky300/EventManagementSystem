@@ -40,22 +40,26 @@ class CreateEventFrm(forms.ModelForm):
 
         fields = [
             'name',
+            'eveTyp',
             'desc',
             'startDate',
             'endDate',
             'venue',
             'TicketPrice',
             'img',
+            'eveManager',
         ]
 
-        lables = {
+        labels = {
 
             'name' : 'Enter event name',
+            'eve'  : 'Event type',
             'desc' : 'Event description',
             'startDate' : 'Event start date',
             'endDate' : 'Event end date',
             'venue' : 'Select an event venue',
-            'img' : 'Upload an image'
+            'img' : 'Upload an image',
+            'eveManager' : '',
 
         }
 

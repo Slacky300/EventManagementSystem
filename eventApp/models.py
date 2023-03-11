@@ -87,6 +87,13 @@ class EventPlace(models.Model):
 
 class CreatEvent(models.Model):
 
+    typ = (
+        ('WeddingAnniversary', 'Wedding Anniversary'),
+        ('BirthDay Party','BirthDay Party'),
+        ('Conference', 'Conference'),
+        ('CelebrationParty','Celebration Party'),
+    )
+
     name = models.CharField(max_length=200)
     desc = models.TextField(null=True, blank=True)
     startDate = models.DateTimeField(auto_now_add=False, auto_now=False)
@@ -95,6 +102,7 @@ class CreatEvent(models.Model):
     TicketPrice = models.PositiveIntegerField(null=True, blank=True)
     slug = AutoSlugField(populate_from = 'name',unique=True,null=True,default=None)
     img = models.ImageField(upload_to='event/' ,null=True, blank=True)
+    eveTyp = models.CharField(choices=typ,null=True,blank=True,max_length=50)
     eveManager = models.ForeignKey(UserAccount, on_delete=models.CASCADE  ,null=True,blank=True)
 
     def __str__(self):
