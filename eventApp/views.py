@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from . forms import EventPlaceFrm, CreateEventFrm
-from . models import EventPlace, CreatEvent
+from . models import Venues, CreatEvent
 from django.contrib import messages
 # Create your views here.
 def home(request):
@@ -28,19 +28,20 @@ def addEventL(request):
 def places(request):
 
 
-    lct = EventPlace.objects.all()
+    lct = Venues.objects.all()
     context = {
         'lct' : lct,
     }
 
     return render(request,'main/places.html',context)
 
-def createEvent(request):
+def createEvent(request,slug):
 
-    venue = EventPlace.objects.all()
+    venue = Venues.objects.get(slug = slug)
     
     ints = {
-        'eveManager' : request.user 
+        'eveManager' : request.user,
+        'venue' : venue,
     }
     frm = CreateEventFrm(initial=ints)
     context = {
@@ -52,18 +53,25 @@ def createEvent(request):
             frm = CreateEventFrm(request.POST,request.FILES)
             vnu = request.POST.get('venue')
             if frm.is_valid():
-                    venueX = EventPlace.objects.get(id = vnu)
+                    venueX = Venues.objects.get(id = vnu)
                     venueX.availabililty = False
                     venueX.save()
                     frm.save()
                     messages.success(request,'Submitted Successfully')
                     frm.clean()
-                    return redirect('createEvent')
+                    return render(request,'main/forms/createEvent.html',context)
         except:
             messages.error(request,'Failed to submit')
-            return redirect('createEvent')
+            return render(request,'main/forms/createEvent.html',context)
     else:
         
         return render(request,'main/forms/createEvent.html',context)
     
 
+def venueDetail(request, slug):
+
+    venue = Venues.objects.get(slug = slug)
+    context = {
+        'venue' : venue,
+    }
+    return render(request,'main/details/venueDetail.html',context)

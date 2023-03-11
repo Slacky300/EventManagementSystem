@@ -4,5 +4,5 @@ from . models import *
 
 admin.site.register(UserAccount)
 admin.site.register(City)
-admin.site.register(EventPlace)
+admin.site.register(Venues)
 admin.site.register(CreatEvent)

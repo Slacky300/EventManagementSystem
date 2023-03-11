@@ -67,7 +67,15 @@ class City(models.Model):
     def __str__(self):
         return self.name
 
-class EventPlace(models.Model):
+class Venues(models.Model):
+
+
+    typV = (
+        ('WeddingAnniversary', 'Wedding Anniversary'),
+        ('BirthDay Party','BirthDay Party'),
+        ('Conference', 'Conference'),
+        ('CelebrationParty','Celebration Party'),
+    )
 
     name = models.CharField(max_length=200)
     desc = models.CharField(max_length=300)
@@ -79,10 +87,19 @@ class EventPlace(models.Model):
     city = models.ForeignKey(City,on_delete=models.CASCADE,null=True,blank=True)
     address = models.CharField(max_length=400)
     availabililty = models.BooleanField(default=True)
+    speciality = models.CharField(max_length=100,null=True,blank=True,choices=typV)
     slug = AutoSlugField(populate_from = 'name',unique=True,null=True,default=None,blank=True)
 
     def __str__(self):
-        return f'{self.name} + Availaibility - {self.availabililty}'
+        return f'{self.name} Availaibility - {self.availabililty}'
+    
+    def get_absolute_url(self):
+
+        return f'/venue/{self.slug}/'
+    
+    def crEvent(self):
+
+        return f'/createEvent/{self.slug}/'
 
 
 class CreatEvent(models.Model):
@@ -98,12 +115,13 @@ class CreatEvent(models.Model):
     desc = models.TextField(null=True, blank=True)
     startDate = models.DateTimeField(auto_now_add=False, auto_now=False)
     endDate = models.DateTimeField(auto_now=False, auto_now_add=False)
-    venue = models.ForeignKey(EventPlace,on_delete=models.CASCADE, null=True, blank=True)
+    venue = models.ForeignKey(Venues,on_delete=models.CASCADE, null=True, blank=True)
     TicketPrice = models.PositiveIntegerField(null=True, blank=True)
     slug = AutoSlugField(populate_from = 'name',unique=True,null=True,default=None)
     img = models.ImageField(upload_to='event/' ,null=True, blank=True)
     eveTyp = models.CharField(choices=typ,null=True,blank=True,max_length=50)
     eveManager = models.ForeignKey(UserAccount, on_delete=models.CASCADE  ,null=True,blank=True)
+    nGuest = models.PositiveIntegerField(null=True,blank=True)
 
     def __str__(self):
 

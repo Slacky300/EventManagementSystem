@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from . models import EventPlace, CreatEvent
+from . models import Venues, CreatEvent
 
 
 class DateInput(forms.DateInput):
@@ -8,7 +8,7 @@ class DateInput(forms.DateInput):
 
 class EventPlaceFrm(forms.ModelForm):
     class Meta:
-        model = EventPlace
+        model = Venues
         fields = [
               
               'name',
@@ -41,13 +41,14 @@ class CreateEventFrm(forms.ModelForm):
         fields = [
             'name',
             'eveTyp',
-            'desc',
             'startDate',
             'endDate',
             'venue',
+            'nGuest',
             'TicketPrice',
             'img',
             'eveManager',
+            'desc',
         ]
 
         labels = {
@@ -57,6 +58,7 @@ class CreateEventFrm(forms.ModelForm):
             'desc' : 'Event description',
             'startDate' : 'Event start date',
             'endDate' : 'Event end date',
+            'nGuest' : 'Number of guests',
             'venue' : 'Select an event venue',
             'img' : 'Upload an image',
             'eveManager' : '',

@@ -1,5 +1,6 @@
 {% extends 'index.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
@@ -15,12 +16,23 @@
 
     <div class="container my-5">
         {% include 'components/messages.html' %}
-        <form method="post" action="{% url 'createEvent' %}" class=""  enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form|crispy }}
+        <div class="row">
 
-            <button class="btn btn-primary" type="submit">Submit</button>
-        </form>
+            <div class="col-md-8 col-lg-7 col-xl-6 mt-5">
+                <img src="{{venue.img.url}}"
+                    class="img-fluid" alt="Phone image">
+            </div>
+
+            <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+                <form method="post" action="{{venue.crEvent}}" class=""  enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+        
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+        
         
     </div>
 
@@ -33,11 +45,11 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Size Error</h1>
+              <h1 class="modal-title fs-5 msgTT" id="exampleModalLabel">Size Error</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-              Invalid Date
+            <div class="modal-body" id="modalMsg">
+              Invalid Guest
             </div>
             <div class="modal-footer">
     
@@ -50,8 +62,10 @@
     <script>
         
         //    Logic to check whether the startDate is less than the endDate starts here
-        
+
             let btn = document.getElementById('errorBrn');
+            let msg = document.getElementById('modalMsg');
+            let msgTitle = document.getElementsByClassName('msgTT');
 
             function result(){
 
@@ -64,10 +78,32 @@
                 }
             }
 
+
+        function validDate(){
+
+            let nGuest = document.getElementById('id_nGuest').value;
+            var limit =  "{{venue.cpcty}}" ;
+            if( nGuest > limit){
+                console.log('HAeg')
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+
             document.querySelector('form').addEventListener('submit',(e) => {
 
                 let a = result();
-                if(a){
+                let b = validDate();
+                if(a || b){
+                    if(a){
+                        msgTitle.innerHTML = "Date Error";
+                        msg.innerHTML = "Invalid date";
+                    }else if(b){
+                        msgTitle.innerHTML = "Guest Error";
+                        msg.innerHTML = "Invalid number of guests";
+                    }
                     e.preventDefault();
                     btn.click();
                     return false;
@@ -105,7 +141,14 @@
         //  Logic for startDate and endDate should be equal to today's date only and not
         //  previous date end's here
 
-        
+        //Logic for validating capacity starts here
+            
+            
+
+
+
+            
+
 
     </script>
 
