@@ -2,6 +2,14 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+    <style>
+        .errBtn{
+            display: none;
+        }
+    </style>
+
     <div class="container my-5">
         {% include 'components/messages.html' %}
         <form method="post" action="{% url 'createEvent' %}" class=""  enctype="multipart/form-data">
@@ -13,6 +21,79 @@
         
     </div>
 
+    <button type="button" class="btn btn-primary errBtn" data-bs-toggle="modal" id="errorBrn" data-bs-target="#exampleModal">
+        Error in Dates
+      </button>
+    
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Size Error</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Invalid Date
+            </div>
+            <div class="modal-footer">
+    
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Got It!</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
+    <script>
+        
+           
+            let btn = document.getElementById('errorBrn');
+
+            function result(){
+
+                let sDate = new Date(document.getElementById('id_startDate').value)
+                let eDate = new Date(document.getElementById('id_endDate').value)
+                if(sDate > eDate){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+
+            document.querySelector('form').addEventListener('submit',(e) => {
+
+                let a = result();
+                if(a){
+                    e.preventDefault();
+                    btn.click();
+                    return false;
+                }else{
+                    return;
+                }
+            });
+
+
+            $(document).ready(function(){
+
+                let dtToday = new Date();
+                let month = dtToday.getMonth() + 1;
+                let day = dtToday.getDate();
+                let year = dtToday.getFullYear();
+                if(month < 10){
+                    month = '0' + month.toString();
+                }
+                if(day < 10){
+                    day = '0' + day.toString();
+                }
+
+                let maxDate = year + '-' + month + '-' + day;
+
+                $('#id_startDate').attr('min', maxDate);
+                $('#id_endDate').attr('min',maxDate);
+            });
+        
+        
+
+    </script>
 
 {% endblock %}

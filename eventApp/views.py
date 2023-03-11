@@ -46,12 +46,19 @@ def createEvent(request):
     if request.method == 'POST':
         try:
             frm = CreateEventFrm(request.POST,request.FILES)
+            vnu = request.POST.get('venue')
             if frm.is_valid():
+                    venueX = EventPlace.objects.get(id = vnu)
+                    venueX.availabililty = False
+                    venueX.save()
                     frm.save()
                     messages.success(request,'Submitted Successfully')
-                    return redirect('AddEventLct')
+                    return redirect('createEvent')
         except:
             messages.error(request,'Failed to submit')
+            return redirect('createEvent')
     else:
         
         return render(request,'main/forms/createEvent.html',context)
+    
+
