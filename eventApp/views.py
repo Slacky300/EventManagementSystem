@@ -95,6 +95,7 @@ def eventDelete(request,slug):
 
 def eventEdit(request, slug):
     event = CreatEvent.objects.get(slug = slug)
+    venue = Venues.objects.get(slug = event.venue.slug)
 
     ints = {
         'eveManager' : request.user,
@@ -113,6 +114,7 @@ def eventEdit(request, slug):
     frm = CreateEventFrm(initial=ints)
     context = {
         'form' : frm,
+        'venue' : venue,
     }
     if request.method == 'POST':
         try:
