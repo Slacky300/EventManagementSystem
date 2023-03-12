@@ -6,6 +6,10 @@ from . models import Venues, CreatEvent
 class DateInput(forms.DateInput):
     input_type = 'date'
 
+class TimeInput(forms.TimeInput):
+    input_type = 'time'
+
+
 class EventPlaceFrm(forms.ModelForm):
     class Meta:
         model = Venues
@@ -43,6 +47,8 @@ class CreateEventFrm(forms.ModelForm):
             'eveTyp',
             'startDate',
             'endDate',
+            'startTime',
+            'endTime',
             'venue',
             'nGuest',
             'TicketPrice',
@@ -62,10 +68,14 @@ class CreateEventFrm(forms.ModelForm):
             'venue' : 'Select an event venue',
             'img' : 'Upload an image',
             'eveManager' : '',
+            'startTime' : 'Time of event',
+            'endTime' : 'Time the event will end'
 
         }
 
         widgets = {
             'startDate': DateInput(),
             'endDate' :DateInput(),
+            'startTime' : TimeInput(),
+            'endTime' : TimeInput(),
         }

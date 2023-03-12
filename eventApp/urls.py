@@ -6,4 +6,7 @@ urlpatterns = [
     path('places/',views.places,name='places'),
     path('createEvent/<slug:slug>/',views.createEvent,name='createEvent'),
     path('venue/<slug:slug>/',views.venueDetail,name='venueDetail'),
+    path('eventCrud/',views.eventCrude,name='eventCrude'),
+    path('eventCrud/<slug:slug>/',views.eventDelete,name='eventDelete'),
+    path('crudEdit/<slug:slug>/',views.eventEdit,name='eventEdit'),
 ]

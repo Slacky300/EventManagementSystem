@@ -1,0 +1,71 @@
+{% extends 'index.html' %}
+{% block content %}
+
+    <div class="container mt-4">
+        <div class="row">
+            <h5><span>Welcome {{request.user}}, manage your events here: </span></h5>
+            <span class="d-flex justify-content-end align-items-left"><a href="{% url 'places' %}"><button class="btn btn-success">Add new event</button></a></span>
+            <table class="table mt-3">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Venue</th>
+                    <th scope="col">Start date</th>
+                    <th scope="col">End date</th>
+                    <th scope="col">Guests</th>
+                    <th scope="col">Start time</th>
+                    <th scope="col">End time</th>
+                    <th scope="col">Action</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for x in eve %}
+                        <tr>
+                            <th scope="row">{{x.name}}</th>
+                            <td>{{x.venue}}</td>
+                            <td>{{x.startDate}}</td>
+                            <td>{{x.endDate}}</td>
+                            <td>{{x.nGuest}}</td>
+                            <td>{{x.startTime}}</td>
+                            <td>{{x.endTime}}</td>
+                            <td>
+                                <span>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{forloop.counter}}">Delete</button>
+                                </span>
+                                <span>
+                                    <a href="{{x.getEdit}}"><button type="button" class="btn btn-primary">Edit</button></a>
+                                </span>
+                            </td>
+                            
+                        </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+
+              {% for x in eve %}
+                    <div class="modal fade" id="exampleModal{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you Sure you want to delete {{x.name}}?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancel</button>
+                            <a href="{{x.slug}}"><button type="button" class="btn btn-danger">Delete</button></a>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+            {% endfor %}
+            
+        </div>
+    </div>
+
+{% endblock %}

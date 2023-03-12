@@ -12,15 +12,20 @@
         #id_eveManager{
             display: none;
         }
+        .vImg{
+            -webkit-filter: drop-shadow(5px 5px 5px #666666);
+            filter: drop-shadow(5px 5px 5px #666666);
+        }
     </style>
 
     <div class="container my-5">
         {% include 'components/messages.html' %}
+        <h3>{{venue.name}}</h3>
         <div class="row">
 
-            <div class="col-md-8 col-lg-7 col-xl-6 mt-5">
+            <div class="col-md-8 col-lg-7 col-xl-6 mt-3">
                 <img src="{{venue.img.url}}"
-                    class="img-fluid" alt="Phone image">
+                    class="img-fluid vImg" alt="Phone image">
             </div>
 
             <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">

@@ -113,8 +113,10 @@ class CreatEvent(models.Model):
 
     name = models.CharField(max_length=200)
     desc = models.TextField(null=True, blank=True)
-    startDate = models.DateTimeField(auto_now_add=False, auto_now=False)
-    endDate = models.DateTimeField(auto_now=False, auto_now_add=False)
+    startDate = models.DateField(auto_now_add=False, auto_now=False)
+    endDate = models.DateField(auto_now=False, auto_now_add=False)
+    startTime = models.TimeField(auto_now=False,auto_now_add=False,null=True, blank=True)
+    endTime = models.TimeField(auto_now=False,auto_now_add=False,null=True, blank=True)
     venue = models.ForeignKey(Venues,on_delete=models.CASCADE, null=True, blank=True)
     TicketPrice = models.PositiveIntegerField(null=True, blank=True)
     slug = AutoSlugField(populate_from = 'name',unique=True,null=True,default=None)
@@ -127,5 +129,8 @@ class CreatEvent(models.Model):
 
         return f'{self.name} at {self.venue}'
     
+    def getEdit(self):
+
+        return f'/crudEdit/{self.slug}/'
   
 
