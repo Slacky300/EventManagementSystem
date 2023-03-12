@@ -9,4 +9,7 @@ urlpatterns = [
     path('eventCrud/',views.eventCrude,name='eventCrude'),
     path('eventCrud/<slug:slug>/',views.eventDelete,name='eventDelete'),
     path('crudEdit/<slug:slug>/',views.eventEdit,name='eventEdit'),
+    path('login/', views.loginR,name='loginR'),
+    path('logout/',views.logoutR,name='logout'),
+    path('register/',views.registerR,name='register'),
 ]

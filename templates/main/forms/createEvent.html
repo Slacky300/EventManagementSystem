@@ -16,17 +16,40 @@
             -webkit-filter: drop-shadow(5px 5px 5px #666666);
             filter: drop-shadow(5px 5px 5px #666666);
         }
+        #id_tBkngPrice{
+            pointer-events: none;
+        }
+        .vImg{
+            position: fixed;
+            max-width: 516px;
+            max-height: 354px;
+            margin-top: 1.5em;
+        }
+        .hed{
+            position: fixed;
+            overflow: hidden;
+           
+        }
     </style>
-
-    <div class="container my-5">
+    
+    <div class="container my-5 eCnt">
         {% include 'components/messages.html' %}
-        <h3>{{venue.name}}</h3>
+        
+        <div>
+            <h3 class="hed">{{venue.name}} {{venue.cpcty}} {{venue.mincpcty}}</h3>
+        </div>
+        
         <div class="row">
-
-            <div class="col-md-8 col-lg-7 col-xl-6 mt-3">
-                <img src="{{venue.img.url}}"
-                    class="img-fluid vImg" alt="Phone image">
-            </div>
+            
+            
+                <div class="col-md-8 col-lg-7 col-xl-6 mt-3 vImgCnt">
+                    
+                    <img src="{{venue.img.url}}"
+                        class="img-fluid vImg" alt="Phone image">
+                    
+                </div>
+            
+            
 
             <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
                 <form method="post" action="{{venue.crEvent}}" class=""  enctype="multipart/form-data">
@@ -84,13 +107,21 @@
             }
 
 
-        function validDate(){
+        function validTate(){
 
-            let nGuest = document.getElementById('id_nGuest').value;
-            var limit =  "{{venue.cpcty}}" ;
-            if( nGuest > limit){
-                console.log('HAeg')
+            let nGuest = parseInt(document.getElementById('id_nGuest').value);
+            console.log(nGuest)
+            var limit =  parseInt("{{venue.cpcty}}");
+            var llimit = parseInt("{{venue.mincpcty}}");
+
+            if(nGuest > limit){
+                
                 return true;
+
+            }else if(nGuest < llimit){
+                
+                return true;
+
             }else{
                 return false;
             }
@@ -100,7 +131,8 @@
             document.querySelector('form').addEventListener('submit',(e) => {
 
                 let a = result();
-                let b = validDate();
+                let b = validTate();
+                console.log(b)
                 if(a || b){
                     if(a){
                         msgTitle.innerHTML = "Date Error";
@@ -126,6 +158,12 @@
 
             $(document).ready(function(){
 
+                // let nGuest = parseInt(document.getElementById('id_nGuest').value);
+                // let price = parseInt("{{venue.bkngPrice}}")
+                // let tprice = price*nGuest;
+                // console.log(tprice)
+                // let iprice = document.getElementById('id_id_tBkngPrice');
+                // iprice.value = tprice;
                 let dtToday = new Date();
                 let month = dtToday.getMonth() + 1;
                 let day = dtToday.getDate();

@@ -107,8 +107,8 @@
                                 <h5 class="text-uppercase">{{venue.name}}</h5>
                                 <div class="price d-flex flex-row align-items-center"> 
 
-                                    {% if venue.availability %}
-                                        <span class="act-price" style="color: greenyellow;">Available</span>
+                                    {% if venue.availabililty == True %}
+                                        <span class="act-price" style="color: green;">Available</span>
                                     {% else %}
                                         <span class="act-price">Currently not available</span>
                                     {% endif %}
@@ -118,6 +118,7 @@
                             <p class="about">{{venue.desc}}</p>
                             <div class="sizes mt-5">
                                 <h6 class="text-uppercase">Capacity : <span>{{venue.cpcty}}</span></h6> 
+                                <h6 class="text-uppercase">Mobile No. : <span>{{venue.mobNo}}</span></h6> 
                             </div>
                             <a href="{{venue.crEvent}}" style="text-decoration: none; color: #fff;">
                                 <div class="cart mt-4 align-items-center"> <button

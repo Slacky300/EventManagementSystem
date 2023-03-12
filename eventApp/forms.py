@@ -23,6 +23,7 @@ class EventPlaceFrm(forms.ModelForm):
               'areaSpecs',
               'city',
               'address',
+              
 
         ]
         labels = {
@@ -34,6 +35,7 @@ class EventPlaceFrm(forms.ModelForm):
             'areaSpecs' : 'Specifications of the area',
             'city' : 'City',
             'address': 'Address',
+            
         }
 
 
@@ -51,6 +53,7 @@ class CreateEventFrm(forms.ModelForm):
             'endTime',
             'venue',
             'nGuest',
+            'tBkngPrice',
             'TicketPrice',
             'img',
             'eveManager',
@@ -69,7 +72,8 @@ class CreateEventFrm(forms.ModelForm):
             'img' : 'Upload an image',
             'eveManager' : '',
             'startTime' : 'Time of event',
-            'endTime' : 'Time the event will end'
+            'endTime' : 'Time the event will end',
+            'tBkngPrice' : 'Total Booking Price',
 
         }
 

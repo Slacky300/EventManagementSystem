@@ -81,6 +81,7 @@ class Venues(models.Model):
     desc = models.CharField(max_length=300)
     img = models.ImageField(upload_to='venues/', null=True, blank=True)
     cpcty = models.PositiveIntegerField()
+    mincpcty = models.PositiveIntegerField(blank=True,null=True)
     bkngPrice = models.PositiveIntegerField()
     rating = models.IntegerField(null=True, blank= True)
     areaSpecs = models.CharField(max_length=200)
@@ -89,6 +90,7 @@ class Venues(models.Model):
     availabililty = models.BooleanField(default=True)
     speciality = models.CharField(max_length=100,null=True,blank=True,choices=typV)
     slug = AutoSlugField(populate_from = 'name',unique=True,null=True,default=None,blank=True)
+    mobNo = models.CharField(max_length=15,null=True,blank=True)
 
     def __str__(self):
         return f'{self.name} Availaibility - {self.availabililty}'
@@ -124,6 +126,7 @@ class CreatEvent(models.Model):
     eveTyp = models.CharField(choices=typ,null=True,blank=True,max_length=50)
     eveManager = models.ForeignKey(UserAccount, on_delete=models.CASCADE  ,null=True,blank=True)
     nGuest = models.PositiveIntegerField(null=True,blank=True)
+    tBkngPrice = models.PositiveBigIntegerField(null=True,blank=True)
 
     def __str__(self):
 

@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect
 from . forms import EventPlaceFrm, CreateEventFrm
-from . models import Venues, CreatEvent
+from . models import *
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 # Create your views here.
 def home(request):
     return render(request,'main/land.html')
 
+
+@login_required(login_url='/login/')
 def addEventL(request):
 
     frm = EventPlaceFrm()
@@ -25,6 +29,7 @@ def addEventL(request):
 
     return render(request,'main/forms/addEventLocation.html',context)
 
+
 def places(request):
 
 
@@ -35,6 +40,8 @@ def places(request):
 
     return render(request,'main/places.html',context)
 
+
+@login_required(login_url='/login/')
 def createEvent(request,slug):
 
     venue = Venues.objects.get(slug = slug)
@@ -68,6 +75,7 @@ def createEvent(request,slug):
         return render(request,'main/forms/createEvent.html',context)
     
 
+
 def venueDetail(request, slug):
 
     venue = Venues.objects.get(slug = slug)
@@ -78,6 +86,9 @@ def venueDetail(request, slug):
 
 
 
+
+
+@login_required(login_url='/login/')
 def eventCrude(request):
 
     events = CreatEvent.objects.filter(eveManager = request.user)
@@ -86,13 +97,28 @@ def eventCrude(request):
     }
     return render(request,'main/crud/eventCrud.html',context)
 
+
+
+
+
+
+@login_required(login_url='/login/')
 def eventDelete(request,slug):
 
     events = CreatEvent.objects.get(slug = slug)
+    venue = Venues.objects.get(slug = events.venue.slug)
+    venue.availabililty = True
+    venue.save()
     events.delete()
     messages.success(request,'Event deleted successfully')
     return redirect('eventCrude')
 
+
+
+
+
+
+@login_required(login_url='/login/')
 def eventEdit(request, slug):
     event = CreatEvent.objects.get(slug = slug)
     venue = Venues.objects.get(slug = event.venue.slug)
@@ -136,3 +162,55 @@ def eventEdit(request, slug):
         return render(request,'main/forms/createEvent.html',context)
 
 
+
+
+def loginR(request):
+
+    if request.method == 'POST':
+
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        user = authenticate(email = email, password = password)
+
+        if user is not None:
+            login(request,user)
+            messages.success(request,'Logged In Successfully')
+            return redirect('home')
+
+        else:
+            messages.error(request,'Invalid Credentials')
+            return render(request,'authentication/login.html')
+
+    else:
+        return render(request,'authentication/login.html')
+
+
+def registerR(request):
+
+
+    if request.method == 'POST':
+
+        email = request.POST.get('email')
+        name = request.POST.get('name')
+        password = request.POST.get('password')
+
+        if UserAccount.objects.filter(email=email).exists():
+            messages.warning(request,'User with this email already exists')
+            return render(request,'authentication/register.html')
+        else:
+
+            myuser = UserAccount.objects.create_user(email, name, password)
+            myuser.save()
+            messages.success(request,'User Created Successfully')
+            return redirect('loginR')
+
+    else:
+        return render(request,'authentication/register.html')
+
+
+
+def logoutR(request):
+    logout(request)
+    messages.success(request,'Logged Out Successfully')
+    return redirect('loginR')
