@@ -28,46 +28,57 @@
         .hed{
             position: fixed;
             overflow: hidden;
-           
+
         }
+        /*@media screen and (max-width:1100px){*/
+
+        /*    .hed, .vImg {*/
+        /*        position: relative;*/
+
+        /*    }*/
+        /*    .vImg {*/
+        /*        margin-top: auto;*/
+        /*    }*/
+
+        /*}*/
     </style>
-    
+
     <div class="container my-5 eCnt">
         {% include 'components/messages.html' %}
-        
+
         <div>
             <h3 class="hed">{{venue.name}} {{venue.cpcty}} {{venue.mincpcty}}</h3>
         </div>
-        
+
         <div class="row">
-            
-            
+
+
                 <div class="col-md-8 col-lg-7 col-xl-6 mt-3 vImgCnt">
-                    
+
                     <img src="{{venue.img.url}}"
                         class="img-fluid vImg" alt="Phone image">
-                    
+
                 </div>
-            
-            
+
+
 
             <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
                 <form method="post" action="{{venue.crEvent}}" class=""  enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form|crispy }}
-        
+
                     <button class="btn btn-primary" type="submit">Submit</button>
                 </form>
             </div>
         </div>
-        
-        
+
+
     </div>
 
     <button type="button" class="btn btn-primary errBtn" data-bs-toggle="modal" id="errorBrn" data-bs-target="#exampleModal">
         Error in Dates
       </button>
-    
+
       <!-- Modal -->
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -80,7 +91,7 @@
               Invalid Guest
             </div>
             <div class="modal-footer">
-    
+
               <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Got It!</button>
             </div>
           </div>
@@ -88,7 +99,7 @@
       </div>
 
     <script>
-        
+
         //    Logic to check whether the startDate is less than the endDate starts here
 
             let btn = document.getElementById('errorBrn');
@@ -115,11 +126,11 @@
             var llimit = parseInt("{{venue.mincpcty}}");
 
             if(nGuest > limit){
-                
+
                 return true;
 
             }else if(nGuest < llimit){
-                
+
                 return true;
 
             }else{
@@ -180,17 +191,17 @@
                 $('#id_startDate').attr('min', maxDate);
                 $('#id_endDate').attr('min',maxDate);
             });
-        
+
         //  Logic for startDate and endDate should be equal to today's date only and not
         //  previous date end's here
 
         //Logic for validating capacity starts here
-            
-            
 
 
 
-            
+
+
+
 
 
     </script>
