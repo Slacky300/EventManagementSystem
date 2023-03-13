@@ -20,30 +20,31 @@
             pointer-events: none;
         }
         .vImg{
-            position: fixed;
-            max-width: 516px;
-            max-height: 354px;
-            margin-top: 1.5em;
+            position: relative;
+            margin-bottom: 1.5em;
         }
         .hed{
-            position: fixed;
-            overflow: hidden;
+            position: relative;
 
         }
-        /*@media screen and (max-width:1100px){*/
+        @media(min-width:1100px){
 
-        /*    .hed, .vImg {*/
-        /*        position: relative;*/
+            .hed, .vImg {
+              position: fixed;
 
-        /*    }*/
-        /*    .vImg {*/
-        /*        margin-top: auto;*/
-        /*    }*/
+            }
 
-        /*}*/
+            .vImg {
+                
+                max-width: 516px;
+                max-height: 354px;
+                margin-top: 1.5em;
+           }
+
+        }
     </style>
 
-    <div class="container my-5 eCnt">
+    <div class="container my-5 eCnt mt-5">
         {% include 'components/messages.html' %}
 
         <div>
