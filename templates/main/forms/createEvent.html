@@ -48,7 +48,7 @@
         {% include 'components/messages.html' %}
 
         <div>
-            <h3 class="hed">{{venue.name}} {{venue.cpcty}} {{venue.mincpcty}}</h3>
+            <h3 class="hed">{{venue.name}} {{venue.cpcty}} {{venue.mincpcty}} <span id="priceEle"></span></h3>
         </div>
 
         <div class="row">
@@ -68,7 +68,33 @@
                     {% csrf_token %}
                     {{ form|crispy }}
 
-                    <button class="btn btn-primary" type="submit">Submit</button>
+                    <!-- <button class="btn btn-primary" type="submit">Submit</button> -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"  data-bs-target="#exampleModal2">
+                        Submit
+                    </button>
+
+                    <!-- Final price Booking modal -->
+                            <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h1 class="modal-title fs-5 msgTT" id="exampleModalLabel">Are you sure?</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body" id="modalMsg2">
+                                    Invalid Guest
+                                    </div>
+                                    <div class="modal-footer">
+
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                    <button class="btn btn-success" type="submit">Submit</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        <!-- price showing modal ends here  -->
+
+
                 </form>
             </div>
         </div>
@@ -80,7 +106,7 @@
         Error in Dates
       </button>
 
-      <!-- Modal -->
+    
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -97,9 +123,32 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> 
+
+
+
+      
+
+
+
 
     <script>
+
+        function updatePrice(){
+
+            let guest = parseInt(document.getElementById('id_nGuest').value);
+            let bkng = parseInt("{{venue.bkngPrice}}");
+            let txt = document.getElementById('modalMsg2');
+            let ans = guest*bkng.toString();
+            txt.innerHTML = `Your total booking price for ${guest} guests will be ${ans}`;
+
+        }
+
+        let updater = document.getElementById('id_nGuest');
+        updater.addEventListener('onchange',updatePrice());
+
+        
+
 
         //    Logic to check whether the startDate is less than the endDate starts here
 
