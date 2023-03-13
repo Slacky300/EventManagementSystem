@@ -214,3 +214,39 @@ def logoutR(request):
     logout(request)
     messages.success(request,'Logged Out Successfully')
     return redirect('loginR')
+
+
+
+def confrm(request,slug):
+    eve = CreatEvent.objects.get(slug = slug)
+    eve.status = True
+    eve.save()
+    messages.success(request,'Ready for payment')
+    return redirect('eventCrude')
+
+
+def payFor(request,slug):
+
+    eventX = CreatEvent.objects.get(slug = slug)
+    eventX.payDone = True
+    rcpt = Receipt(
+        rcptFor = request.user,
+        event = eventX,
+        status = True
+    )
+    rcpt.save()
+    eventX.save()
+    messages.success(request,'Payment Successfull')
+    return redirect('eventCrude')
+
+def getStatus(request,slug):
+
+    eventX = CreatEvent.objects.get(slug = slug)
+    rcpt = Receipt.objects.get(event = eventX)
+    context = {
+        'event' : eventX,
+        'rcpt' : rcpt,
+    }
+
+    return render(request,'main/crud/receipt.html',context)
+    

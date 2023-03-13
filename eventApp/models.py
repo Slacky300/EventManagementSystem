@@ -1,3 +1,4 @@
+import random
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from autoslug import AutoSlugField
@@ -102,6 +103,8 @@ class Venues(models.Model):
     def crEvent(self):
 
         return f'/createEvent/{self.slug}/'
+    
+    
 
 
 class CreatEvent(models.Model):
@@ -127,6 +130,9 @@ class CreatEvent(models.Model):
     eveManager = models.ForeignKey(UserAccount, on_delete=models.CASCADE  ,null=True,blank=True)
     nGuest = models.PositiveIntegerField(null=True,blank=True)
     tBkngPrice = models.PositiveBigIntegerField(null=True,blank=True)
+    status = models.BooleanField(null=True,blank=True,default=False)
+    payDone = models.BooleanField(null=True,blank=True,default=False)
+    
 
     def __str__(self):
 
@@ -135,5 +141,38 @@ class CreatEvent(models.Model):
     def getEdit(self):
 
         return f'/crudEdit/{self.slug}/'
+    
+    def cnfrmOrder(self):
+
+        return f'/eventCnfrm/{self.slug}/'
+    
+    def payCr(self):
+
+        return f'/payFor/{self.slug}/'
+    
+    def getBro(self):
+
+        return f'/payStatus/{self.slug}/'
   
 
+
+
+class Receipt(models.Model):
+
+
+    def create_new_ref_number():
+                not_unique = True
+                while not_unique:
+                    unique_ref = random.randint(1000000000, 9999999999)
+                    if not Receipt.objects.filter(rcptNo=unique_ref):
+                        not_unique = False
+                return str(unique_ref)
+
+    rcptFor = models.ForeignKey(UserAccount,on_delete=models.CASCADE,null=True,blank=True)
+    rcptNo = models.CharField(default=create_new_ref_number,max_length=10)
+    event = models.ForeignKey(CreatEvent,on_delete=models.CASCADE,null=True,blank=True)
+    status = models.BooleanField(null=True,blank=True,default=False)
+
+
+
+    

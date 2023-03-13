@@ -3,6 +3,7 @@
 
     <div class="container mt-4">
         <div class="row">
+            {% include 'components/messages.html' %}
             <h5><span>Welcome {{request.user}}, manage your events here: </span></h5>
             <span class="d-flex justify-content-end align-items-left"><a href="{% url 'places' %}"><button class="btn btn-success">Add new event</button></a></span>
             <table class="table mt-3">
@@ -23,19 +24,32 @@
                     {% for x in eve %}
                         <tr>
                             <th scope="row">{{x.name}}</th>
-                            <td>{{x.venue}}</td>
+                            <td>{{x.venue.name}}</td>
                             <td>{{x.startDate}}</td>
                             <td>{{x.endDate}}</td>
                             <td>{{x.nGuest}}</td>
                             <td>{{x.startTime}}</td>
                             <td>{{x.endTime}}</td>
                             <td>
+                            {% if not x.status %}
                                 <span>
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{forloop.counter}}">Delete</button>
                                 </span>
                                 <span>
                                     <a href="{{x.getEdit}}"><button type="button" class="btn btn-primary">Edit</button></a>
                                 </span>
+                                <span>
+                                    <a href="{{x.cnfrmOrder}}"><button type="button" class="btn btn-primary">Confirm</button></a>
+                                </span>
+                            {% else %}
+                            
+                                {% if x.payFor %}
+                                    <a href="{{x.payCr}}"><span><button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2{{forloop.counter}}" class="btn btn-success">Pay</button></span></a>
+                                {% else %}
+                                    <a href="{{x.getBro}}"><span><button type="button" class="btn btn-success">View Receipt</button></span></a>
+                                {% endif %}
+                                
+                            {% endif %}
                             </td>
                             
                         </tr>
@@ -67,5 +81,27 @@
             
         </div>
     </div>
+
+
+
+        {% for x in eve %}
+            <div class="modal fade" id="exampleModal2{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5 msgTT" id="exampleModalLabel">View Bill</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modalMsg">
+                        
+                    </div>
+                    <div class="modal-footer">
+
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Got It!</button>
+                    </div>
+                </div>
+                </div>
+            </div> 
+        {% endfor %}
 
 {% endblock %}
