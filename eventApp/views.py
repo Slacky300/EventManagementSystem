@@ -4,8 +4,10 @@ from . models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from . filters import VenueFilter
 # Create your views here.
 def home(request):
+    
     return render(request,'main/land.html')
 
 
@@ -34,10 +36,10 @@ def places(request):
 
 
     lct = Venues.objects.all()
+    venueFltr = VenueFilter(request.GET, queryset = lct)
     context = {
-        'lct' : lct,
+        'venue' : venueFltr,
     }
-
     return render(request,'main/places.html',context)
 
 

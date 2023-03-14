@@ -48,7 +48,7 @@
         {% include 'components/messages.html' %}
 
         <div>
-            <h3 class="hed">{{venue.name}} {{venue.cpcty}} {{venue.mincpcty}}<span id="priceEle"></span></h3>
+            <h3 class="hed">{{venue.name}} ---- Max capacity : {{venue.cpcty}}<span id="priceEle"></span></h3>
         </div>
 
         <div class="row">
@@ -69,7 +69,7 @@
                     {{ form|crispy }}
 
                     <!-- <button class="btn btn-primary" type="submit">Submit</button> -->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"  data-bs-target="#exampleModal2">
+                    <button type="button" class="btn btn-primary" id="pcr" data-bs-toggle="modal"  data-bs-target="#exampleModal2">
                         Submit
                     </button>
 
@@ -136,16 +136,18 @@
 
         function updatePrice(){
 
-            let guest = parseInt(document.getElementById('id_nGuest').value);
+            let guest = document.getElementById("id_nGuest").value;
+            console.log(guest);
             let bkng = parseInt("{{venue.bkngPrice}}");
+            console.log(bkng);
             let txt = document.getElementById('modalMsg2');
-            let ans = guest*bkng.toString();
+            let ans = (guest*bkng)
             txt.innerHTML = `Your total booking price for ${guest} guests will be ${ans}`;
 
         }
 
-        let updater = document.getElementById('id_nGuest');
-        updater.addEventListener('onchange',updatePrice());
+        let updater = document.getElementById('pcr');
+        updater.addEventListener('click',updatePrice());
 
         
 
@@ -171,7 +173,6 @@
         function validTate(){
 
             let nGuest = parseInt(document.getElementById('id_nGuest').value);
-            console.log(nGuest)
             var limit =  parseInt("{{venue.cpcty}}");
             var llimit = parseInt("{{venue.mincpcty}}");
 

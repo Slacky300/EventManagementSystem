@@ -103,8 +103,9 @@
                                 
                             </div>
                             <div class="mt-4 mb-3"> <span
-                                    class="text-uppercase text-muted brand">{{venue.speciality}}</span>
+                                    class="text-uppercase text-muted brand">Speciality : {{venue.speciality}}</span>
                                 <h5 class="text-uppercase">{{venue.name}}</h5>
+                                <h6>{{venue.desc}}</h6>
                                 <div class="price d-flex flex-row align-items-center"> 
 
                                     {% if venue.availabililty == True %}
@@ -120,12 +121,19 @@
                                 <h6 class="text-uppercase">Capacity : <span>{{venue.cpcty}}</span></h6> 
                                 <h6 class="text-uppercase">Mobile No. : <span>{{venue.mobNo}}</span></h6> 
                             </div>
+                            {% if venue.availabililty == True %}
                             <a href="{{venue.crEvent}}" style="text-decoration: none; color: #fff;">
                                 <div class="cart mt-4 align-items-center"> <button
-                                    class="btn btn-danger text-uppercase mr-2 px-4">Book Now</button> <i
+                                    class="btn btn-danger text-uppercase mr-2 px-4">Reserve Now</button> <i
                                     class="fa fa-heart text-muted"></i> <i class="fa fa-share-alt text-muted"></i>
                                 </div>
                             </a>
+                            {% else %}
+                            <div class="cart mt-4 align-items-center"> <button
+                                class="btn btn-danger text-uppercase mr-2 px-4">Reserve Later</button> <i
+                                class="fa fa-heart text-muted"></i> <i class="fa fa-share-alt text-muted"></i>
+                            </div>
+                            {% endif %}
                             
                         </div>
                     </div>
