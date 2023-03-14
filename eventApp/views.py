@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from . filters import VenueFilter
+
 # Create your views here.
 def home(request):
     
@@ -61,6 +62,7 @@ def createEvent(request,slug):
         try:
             frm = CreateEventFrm(request.POST,request.FILES)
             vnu = request.POST.get('venue')
+            price = request.POST.get('price')
             if frm.is_valid():
                     venueX = Venues.objects.get(id = vnu)
                     venueX.availabililty = False
@@ -68,6 +70,9 @@ def createEvent(request,slug):
                     frm.save()
                     messages.success(request,'Submitted Successfully')
                     frm.clean()
+                    event = CreatEvent.objects.get(venue = venueX)
+                    event.tBkngPrice = price
+                    event.save()
                     return redirect('eventCrude')
         except:
             messages.error(request,'Failed to submit')
@@ -229,17 +234,24 @@ def confrm(request,slug):
 
 def payFor(request,slug):
 
-    eventX = CreatEvent.objects.get(slug = slug)
-    eventX.payDone = True
-    rcpt = Receipt(
-        rcptFor = request.user,
-        event = eventX,
-        status = True
-    )
-    rcpt.save()
-    eventX.save()
-    messages.success(request,'Payment Successfull')
-    return redirect('eventCrude')
+
+    try:
+
+
+        eventX = CreatEvent.objects.get(slug = slug)
+        eventX.payDone = True
+        rcpt = Receipt(
+            rcptFor = request.user,
+            event = eventX,
+            status = True
+        )
+        rcpt.save()
+        eventX.save()
+        messages.success(request,'Payment Successfull')
+        return redirect('eventCrude')
+    except:
+        messages.error(request,'Failed to generate receipt')
+        return redirect('eventCrude')
 
 def getStatus(request,slug):
 

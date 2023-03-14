@@ -15,4 +15,5 @@ urlpatterns = [
     path('eventCnfrm/<slug:slug>/',views.confrm,name='EventCnfrm'),
     path('payFor/<slug:slug>/',views.payFor,name='payment'),
     path('payStatus/<slug:slug>/',views.getStatus,name='getIt'),
+
 ]

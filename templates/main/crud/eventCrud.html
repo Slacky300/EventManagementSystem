@@ -43,7 +43,7 @@
                                 </span>
                             {% else %}
                             
-                                {% if x.payFor %}
+                                {% if not x.payDone %}
                                     <a href="{{x.payCr}}"><span><button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2{{forloop.counter}}" class="btn btn-success">Pay</button></span></a>
                                 {% else %}
                                     <a href="{{x.getBro}}"><span><button type="button" class="btn btn-success">View Receipt</button></span></a>

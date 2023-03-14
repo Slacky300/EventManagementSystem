@@ -94,7 +94,7 @@
                             </div>
                         <!-- price showing modal ends here  -->
 
-
+                                <input type="number" id="priceContainer" name = 'price'>
                 </form>
             </div>
         </div>
@@ -137,12 +137,14 @@
         function updatePrice(){
 
             let guest = parseInt(document.getElementById("id_nGuest").value);
+            let cnt = document.getElementById('priceContainer')
             console.log(guest);
             let bkng = parseInt("{{venue.bkngPrice}}");
             console.log(bkng);
             let txt = document.getElementById('modalMsg2');
             let ans = (guest*bkng)
             txt.innerHTML = `Your total booking price for ${guest} guests will be ${ans}`;
+            cnt.value = ans;
 
         }
 

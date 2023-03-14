@@ -5,13 +5,13 @@
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'css/receipt.css' %}">
-
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <table class="body-wrap">
     <tbody>
         <tr>
             <td></td>
-            <td class="container" width="600">
+            <td class="container" id="contain" width="600">
                 <div class="content">
                     <table class="main" width="100%" cellpadding="0" cellspacing="0">
                         <tbody>
@@ -21,7 +21,8 @@
                                         <tbody>
                                             <tr>
                                                 <td class="content-block">
-                                                    <h2>Thanks for using our app</h2>
+                                                    <h2>Receipt for {{event.name}} </h2><hr>
+                                                    <h3> Venue : {{event.venue.name}}</h3>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -29,29 +30,27 @@
                                                     <table class="invoice">
                                                         <tbody>
                                                             <tr>
-                                                                <td>{{user.name}}<br>Invoice no. {{rcpt.rcptNo}}<br>June 01 2015</td>
+                                                                <td>Name of the client :        {{user.name}}<br>Invoice no. {{rcpt.rcptNo}}<br>Receipt date: {{rcpt.rcptDate}}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>
                                                                     <table class="invoice-items" cellpadding="0"
                                                                         cellspacing="0">
                                                                         <tbody>
+                                        
                                                                             <tr>
                                                                                 <td>Price for {{event.nGuest}} guest</td>
-                                                                                <td class="alignright">{{event.tBkngPrice}}</td>
+                                                                                <td class="alignright">&#8377;{{event.tBkngPrice}}</td>
                                                                             </tr>
                                                                             <tr>
-                                                                                <td>Service 2</td>
-                                                                                <td class="alignright">$ 10.00</td>
+                                                                                <td>GST</td>
+                                                                                <td class="alignright">18%</td>
                                                                             </tr>
-                                                                            <tr>
-                                                                                <td>Service 3</td>
-                                                                                <td class="alignright">$ 6.00</td>
-                                                                            </tr>
+                                                                            
                                                                             <tr class="total">
                                                                                 <td class="alignright" width="80%">Total
                                                                                 </td>
-                                                                                <td class="alignright">$ 36.00</td>
+                                                                                <td class="alignright" id="totalprice"> 36.00</td>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
@@ -63,7 +62,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="content-block">
-                                                    <a href="#">View in browser</a>
+                                                    <button class="btn btn-primary" id="btn">Generate pdf</button>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -94,4 +93,22 @@
     </tbody>
 </table>
 
+<script>
+
+     $(document).ready(function(){
+
+        let ans = parseInt("{{event.tBkngPrice}}");
+        let total = (0.18*ans)+ans
+        let tt = document.getElementById('totalprice')
+        tt.innerHTML = `&#8377; ${total}`;
+
+     });
+
+     let div = document.getElementById('contain');
+     let btn = document.getElementById('btn');
+     btn.addEventListener('click',()=>{
+        html2pdf().from(div).save()
+     });
+    
+</script>
 {% endblock %}

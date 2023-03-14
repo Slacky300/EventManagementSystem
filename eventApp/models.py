@@ -132,6 +132,7 @@ class CreatEvent(models.Model):
     tBkngPrice = models.PositiveBigIntegerField(null=True,blank=True)
     status = models.BooleanField(null=True,blank=True,default=False)
     payDone = models.BooleanField(null=True,blank=True,default=False)
+
     
 
     def __str__(self):
@@ -172,7 +173,11 @@ class Receipt(models.Model):
     rcptNo = models.CharField(default=create_new_ref_number,max_length=10)
     event = models.ForeignKey(CreatEvent,on_delete=models.CASCADE,null=True,blank=True)
     status = models.BooleanField(null=True,blank=True,default=False)
+    rcptDate = models.DateField(auto_now=True,null=True,blank=True)
 
+
+    def __str__(self):
+        return f'{self.event} at {self.event.venue}'
 
 
     
