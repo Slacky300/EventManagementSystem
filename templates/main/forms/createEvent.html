@@ -69,7 +69,7 @@
                     {{ form|crispy }}
 
                     <!-- <button class="btn btn-primary" type="submit">Submit</button> -->
-                    <button type="button" class="btn btn-primary" id="pcr" data-bs-toggle="modal"  data-bs-target="#exampleModal2">
+                    <button type="button" class="btn btn-primary" onclick="updatePrice()" data-bs-toggle="modal"  data-bs-target="#exampleModal2">
                         Submit
                     </button>
 
@@ -136,7 +136,7 @@
 
         function updatePrice(){
 
-            let guest = document.getElementById("id_nGuest").value;
+            let guest = parseInt(document.getElementById("id_nGuest").value);
             console.log(guest);
             let bkng = parseInt("{{venue.bkngPrice}}");
             console.log(bkng);
@@ -146,8 +146,8 @@
 
         }
 
-        let updater = document.getElementById('pcr');
-        updater.addEventListener('click',updatePrice());
+        // let updater = document.getElementById('pcr');
+        // updater.addEventListener('click',updatePrice());
 
         
 
