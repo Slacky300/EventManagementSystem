@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Venue name</th>
+                    <th scope="col">Speciality</th>
+                    <th scope="col">Capacity</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for x in ven %}
+                    <tr>
+                        <th scope="row">{{x.name}}</th>
+                        <td>{{x.speciality}}</td>
+                        <td>{{x.cpcty}}</td>
+                        <td><a href="{{x.goCrud}}"><button class="btn btn-primary">View</button></a></td>
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            {% for x in ven %}
+
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

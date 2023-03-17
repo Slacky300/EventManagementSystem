@@ -315,3 +315,35 @@ def availaibility(request,slug):
             return redirect('/venue/'+slug)
     else :
         return redirect('/venue/'+slug)
+    
+
+def regClients(request,slug):
+
+    ven = Venues.objects.get(slug = slug)
+    eve = CreatEvent.objects.filter(venue = ven)
+    context = {
+        'ven' : ven,
+        'eve' : eve,
+    }
+    return render(request,'main/crud/registeredClients.html',context)
+
+def viewVenues(request):
+    ven = Venues.objects.filter(owner = request.user)
+    context = {
+        'ven' : ven,
+    }
+    return render(request,'main/crud/addedVenues.html',context)
+    
+
+def deleteIt(request,slug):
+
+    eve = CreatEvent.objects.get(slug = slug)
+    ven = eve.venue.slug
+    print(ven)
+    try:
+        eve.delete()
+        messages.success(request,'Event successfully cancelled')
+        return redirect('/regClients/'+ven)
+    except:
+        messages.error(request,'Failed to delete')
+        return redirect('/regClients/'+ven)

@@ -19,4 +19,10 @@ urlpatterns = [
 
     path('checkAvial/<slug:slug>/',views.availaibility,name='avail'),
 
+
+
+    path('regClients/<slug:slug>/',views.regClients,name='regClients'),
+    path('deletIt/<slug:slug>/',views.deleteIt,name="deleteIt"),
+    path('viewVenues/',views.viewVenues,name='venues'),
+
 ]

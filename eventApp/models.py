@@ -93,6 +93,7 @@ class Venues(models.Model):
     slug = AutoSlugField(populate_from = 'name',unique=True,null=True,default=None,blank=True)
     mobNo = models.CharField(max_length=15,null=True,blank=True)
     srchDate = models.CharField(max_length=50,null=True,blank=True)
+    owner = models.ForeignKey(UserAccount,on_delete=models.CASCADE,null=True,blank=True)
 
     def __str__(self):
         return f'{self.name} Availaibility - {self.availabililty}'
@@ -108,6 +109,11 @@ class Venues(models.Model):
     def checkAvail(self):
 
         return f'/checkAvial/{self.slug}/'
+    
+    def goCrud(self):
+
+        return f'/regClients/{self.slug}/'
+    
     
 
 
@@ -158,6 +164,10 @@ class CreatEvent(models.Model):
     def getBro(self):
 
         return f'/payStatus/{self.slug}/'
+    
+    def deleteIt(self):
+
+        return f'/deletIt/{self.slug}/'
     
    
   
