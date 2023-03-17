@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from . filters import VenueFilter
 from datetime import datetime
+from django.http import HttpResponse
 
 # Create your views here.
 def home(request):
@@ -285,6 +286,8 @@ def availaibility(request,slug):
         venueF = Venues.objects.get(slug = slug)
         event = CreatEvent.objects.filter(venue = venueF)
         dt = request.POST.get('avail')
+        venueF.srchDate = dt
+        venueF.save()
         # a = event.startDate.strftime("%Y-%m-%d")
         avilb = True
         for x in event:
@@ -296,6 +299,7 @@ def availaibility(request,slug):
             venueF.availabililty = False
             venueF.save()
             return redirect('/venue/'+slug)
+        
         else:
             
             # print(f'Falseeeeeee------------{type(event.startDate)}-----------')

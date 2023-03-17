@@ -101,9 +101,9 @@
                                 <a href="{% url 'places' %}" style="text-decoration: none; color: #000;"><div class="d-flex align-items-center"> <i class="fa fa-long-arrow-left"></i> <span
                                     class="ml-1">Back</span> </div> </a>
                                 <div class="d-flex align-items-right">
-                                    <form action="{{venue.checkAvail}}" method="post">
+                                    <form action="{{venue.checkAvail}}" method="post" id="post-form">
                                         {% csrf_token %}
-                                        <input type="date" name="avail"/>
+                                        <input type="date" name="avail" id="stDate"/>
                                 
                                         <button class="btn btn-primary mx-3" type="submit">Check</button>
                                     </form>
@@ -118,9 +118,14 @@
                                 <div class="price d-flex flex-row align-items-center"> 
 
                                     {% if venue.availabililty == True %}
-                                        <span class="act-price" style="color: green;">Available</span>
+
+                                        {% if not venue.srchDate == None %}
+                                            <span class="act-price" style="color: green;">Available on {{venue.srchDate}}</span>
+                                        {% endif %}
                                     {% else %}
-                                        <span class="act-price">Currently not available</span>
+                                        {% if not venue.srchDate == None %}
+                                            <span class="act-price">Not available on {{venue.srchDate}}</span>
+                                        {% endif %}
                                     {% endif %}
                                     
                                 </div>
@@ -151,6 +156,7 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script>
     function change_image(image) {
 
@@ -170,5 +176,11 @@
 
 
     });
+
+
+
+
+
+   
 </script>
 {% endblock %}

@@ -92,6 +92,7 @@ class Venues(models.Model):
     speciality = models.CharField(max_length=100,null=True,blank=True,choices=typV)
     slug = AutoSlugField(populate_from = 'name',unique=True,null=True,default=None,blank=True)
     mobNo = models.CharField(max_length=15,null=True,blank=True)
+    srchDate = models.CharField(max_length=50,null=True,blank=True)
 
     def __str__(self):
         return f'{self.name} Availaibility - {self.availabililty}'
