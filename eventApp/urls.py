@@ -16,4 +16,7 @@ urlpatterns = [
     path('payFor/<slug:slug>/',views.payFor,name='payment'),
     path('payStatus/<slug:slug>/',views.getStatus,name='getIt'),
 
+
+    path('checkAvial/<slug:slug>/',views.availaibility,name='avail'),
+
 ]

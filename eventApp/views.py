@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from . filters import VenueFilter
+from datetime import datetime
 
 # Create your views here.
 def home(request):
@@ -63,6 +64,17 @@ def createEvent(request,slug):
             frm = CreateEventFrm(request.POST,request.FILES)
             vnu = request.POST.get('venue')
             price = request.POST.get('price')
+            eve = CreatEvent.objects.filter(venue = venue)
+            stDate = request.POST.get('startDate')
+            avilb = True
+            for x in eve:
+                if x.startDate.strftime("%Y-%m-%d") == stDate:
+                    avilb = False
+            if not avilb:
+                messages.error(request,f'{venue.name} is not available on {stDate}')
+                return redirect('/createEvent/'+slug)
+            else:
+                print('-----------------See the format----------')
             if frm.is_valid():
                     venueX = Venues.objects.get(id = vnu)
                     venueX.availabililty = False
@@ -264,3 +276,38 @@ def getStatus(request,slug):
 
     return render(request,'main/crud/receipt.html',context)
     
+
+def availaibility(request,slug):
+
+    if request.method == 'POST':
+
+
+        venueF = Venues.objects.get(slug = slug)
+        event = CreatEvent.objects.filter(venue = venueF)
+        dt = request.POST.get('avail')
+        # a = event.startDate.strftime("%Y-%m-%d")
+        avilb = True
+        for x in event:
+            if x.startDate.strftime("%Y-%m-%d") == dt:
+                avilb = False
+        if  not avilb:
+            # print(f'Trueeeee------------{event.startDate}-----------')
+            # print(f'-----------------{dt}-----------------')
+            venueF.availabililty = False
+            venueF.save()
+            return redirect('/venue/'+slug)
+        else:
+            
+            # print(f'Falseeeeeee------------{type(event.startDate)}-----------')
+            # print(f'Falseeeeeee------------{event.startDate.strftime("%d-%m-%Y")}-----------')
+            # print(f'Falseeeeeee------------{type(event.startDate.strftime("%d-%m-%Y"))}-----------')
+            # print(f'--------------{dt}----------')
+            # print(f'--------------{type(dt)}------------')
+            # print(a==dt)
+
+            venueF.availabililty = True
+            venueF.save()
+       
+            return redirect('/venue/'+slug)
+    else :
+        return redirect('/venue/'+slug)

@@ -104,6 +104,9 @@ class Venues(models.Model):
 
         return f'/createEvent/{self.slug}/'
     
+    def checkAvail(self):
+
+        return f'/checkAvial/{self.slug}/'
     
 
 
@@ -154,6 +157,8 @@ class CreatEvent(models.Model):
     def getBro(self):
 
         return f'/payStatus/{self.slug}/'
+    
+   
   
 
 
