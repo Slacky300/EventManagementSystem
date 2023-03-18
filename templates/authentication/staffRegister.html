@@ -26,7 +26,10 @@
                 
                 <div class="aaloo mt-4">
                     <h4>Sign Up Now</h4>
-                    <button class="btn btn-primary me-3">User</button>
+                    <a href="{% url 'register' %}">
+                        <button class="btn btn-primary me-3">User</button>
+                    </a>
+                    
                 </div>
                 <form method="post" class="mt-4" action="{% url 'staff' %}">
                     {% csrf_token %}
@@ -51,7 +54,7 @@
                     <!-- Submit button -->
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Sign Up</button>
                     
-                    <span class="mx-5">OR</span>
+                    <span class="mx-3">OR</span>
                     
                     <a href="{% url 'loginR' %}"><button type="button" class="btn btn-primary btn-lg btn-block">Login Now</button></a>
                     
