@@ -11,15 +11,21 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'places' %}">Venues</a>
-        </li>
+        {% if user.is_nUser %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'places' %}">Venues</a>
+          </li> 
+        
         <li class="nav-item">
           <a class="nav-link" href="{% url 'eventCrude' %}">Crud</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'venues' %}">CrudMan</a>
-        </li>
+        {% endif %}
+        {% if user.is_xUser %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'venues' %}">Manage Venues</a>
+          </li>
+        {% endif %}
+
         {% if not user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'loginR' %}">Login</a>

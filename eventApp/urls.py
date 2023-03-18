@@ -25,4 +25,7 @@ urlpatterns = [
     path('deletIt/<slug:slug>/',views.deleteIt,name="deleteIt"),
     path('viewVenues/',views.viewVenues,name='venues'),
 
+
+    path('stffRegister/',views.stfReg,name='staff'),
+
 ]

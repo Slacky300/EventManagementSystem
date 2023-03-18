@@ -2,6 +2,12 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
+    <style>
+        #id_owner{
+            display: none;
+        }
+    </style>
+
     <div class="container my-5">
         {% include 'components/messages.html' %}
         <form method="post" action="{% url 'AddEventLct' %}" class=""  enctype="multipart/form-data">

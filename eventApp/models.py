@@ -14,6 +14,7 @@ class UserAccountManager(BaseUserManager):
             name = name
         )
 
+        user.is_nUser= True
 
         user.set_password(password)
         user.save(using = self._db)
@@ -24,8 +25,8 @@ class UserAccountManager(BaseUserManager):
     def xUser(self, email, name, password = None):
         user = self.create_user(email,name,password)
 
-        user.is_mod = True
-        user.is_nUser = True
+        user.is_xUser  = True
+        user.is_nUser = False
         user.is_staff = False
         user.save(using = self._db)
 
@@ -37,7 +38,7 @@ class UserAccountManager(BaseUserManager):
         user.is_superuser = True
         user.is_staff = True
         user.is_nUser = False
-        user.is_mod = False
+        user.is_xUser  = False
 
         user.save(using = self._db)
 
@@ -49,7 +50,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=200)
     is_active = models.BooleanField(default=True)
     is_xUser = models.BooleanField(default=False)
-    is_nUser = models.BooleanField(default=True)
+    is_nUser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
 
     objects = UserAccountManager()

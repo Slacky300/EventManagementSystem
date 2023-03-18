@@ -1,5 +1,6 @@
 {% extends 'index.html' %}
 {% block content %}
+{% load static %}
 
 <style>
     .divider:after,
@@ -18,17 +19,16 @@
     <div class="container py-5 h-100">
         <div class="row d-flex align-items-center justify-content-center h-100">
             <div class="col-md-8 col-lg-7 col-xl-6">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+                <img src="{% static 'images/staff.avif' %}"
                     class="img-fluid" alt="Phone image">
             </div>
             <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
                 
                 <div class="aaloo mt-4">
                     <h4>Sign Up Now</h4>
-                    <a href="{% url 'staff' %}"><button class="btn btn-primary me-3">Staff</button></a>
-                    
+                    <button class="btn btn-primary me-3">User</button>
                 </div>
-                <form method="post" class="mt-4" action="{% url 'register' %}">
+                <form method="post" class="mt-4" action="{% url 'staff' %}">
                     {% csrf_token %}
                     <!-- Email input -->
                     {% include 'authentication/messages.html' %}
@@ -61,5 +61,6 @@
         </div>
     </div>
 </section>
+
 
 {% endblock %}

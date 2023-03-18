@@ -17,7 +17,11 @@ def home(request):
 @login_required(login_url='/login/')
 def addEventL(request):
 
-    frm = EventPlaceFrm()
+    ints = {
+        'owner' : request.user.name,
+    }
+
+    frm = EventPlaceFrm(initial=ints)
     context = {
         'form' : frm
     }
@@ -236,7 +240,7 @@ def logoutR(request):
     return redirect('loginR')
 
 
-
+@login_required(login_url='/login/')
 def confrm(request,slug):
     eve = CreatEvent.objects.get(slug = slug)
     eve.status = True
@@ -244,7 +248,7 @@ def confrm(request,slug):
     messages.success(request,'Ready for payment')
     return redirect('eventCrude')
 
-
+@login_required(login_url='/login/')
 def payFor(request,slug):
 
 
@@ -266,6 +270,8 @@ def payFor(request,slug):
         messages.error(request,'Failed to generate receipt')
         return redirect('eventCrude')
 
+
+@login_required(login_url='/login/')
 def getStatus(request,slug):
 
     eventX = CreatEvent.objects.get(slug = slug)
@@ -278,6 +284,7 @@ def getStatus(request,slug):
     return render(request,'main/crud/receipt.html',context)
     
 
+@login_required(login_url='/login/')
 def availaibility(request,slug):
 
     if request.method == 'POST':
@@ -317,6 +324,7 @@ def availaibility(request,slug):
         return redirect('/venue/'+slug)
     
 
+@login_required(login_url='/login/')
 def regClients(request,slug):
 
     ven = Venues.objects.get(slug = slug)
@@ -327,6 +335,8 @@ def regClients(request,slug):
     }
     return render(request,'main/crud/registeredClients.html',context)
 
+
+@login_required(login_url='/login/')
 def viewVenues(request):
     ven = Venues.objects.filter(owner = request.user)
     context = {
@@ -335,6 +345,7 @@ def viewVenues(request):
     return render(request,'main/crud/addedVenues.html',context)
     
 
+@login_required(login_url='/login/')
 def deleteIt(request,slug):
 
     eve = CreatEvent.objects.get(slug = slug)
@@ -347,3 +358,24 @@ def deleteIt(request,slug):
     except:
         messages.error(request,'Failed to delete')
         return redirect('/regClients/'+ven)
+    
+
+def stfReg(request):
+
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        name = request.POST.get('name')
+        password = request.POST.get('password')
+
+        if UserAccount.objects.filter(email=email).exists():
+            messages.warning(request,'User with this email already exists')
+            return render(request,'authentication/register.html')
+        else:
+
+            myuser = UserAccount.objects.xUser(email, name, password)
+            myuser.save()
+            messages.success(request,'Staff account created successfully')
+            return redirect('loginR')
+
+    else:
+        return render(request,'authentication/staffRegister.html')

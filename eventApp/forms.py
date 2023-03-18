@@ -19,10 +19,13 @@ class EventPlaceFrm(forms.ModelForm):
               'desc',
               'img',
               'cpcty',
+              'speciality',
               'bkngPrice',
+              'mobNo',
               'areaSpecs',
               'city',
               'address',
+              'owner',
               
 
         ]
@@ -35,6 +38,9 @@ class EventPlaceFrm(forms.ModelForm):
             'areaSpecs' : 'Specifications of the area',
             'city' : 'City',
             'address': 'Address',
+            'mobNo' : 'Mobile no.',
+            'speciality' : 'Speciality',
+            'owner' : '',
             
         }
 
