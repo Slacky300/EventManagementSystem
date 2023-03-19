@@ -22,7 +22,7 @@ urlpatterns = [
 
 
     path('regClients/<slug:slug>/',views.regClients,name='regClients'),
-    path('deletIt/<slug:slug>/',views.deleteIt,name="deleteIt"),
+    path('deletIt/<slug:slug>/',views.sendMsgs,name="deleteIt"),
     path('viewVenues/',views.viewVenues,name='venues'),
 
 

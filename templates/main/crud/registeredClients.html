@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 {% block content %}
 
-    <div class="container">
+    <div class="container table-responsive">
         <div class="row">
           {% include 'components/messages.html' %}
             <table class="table">
@@ -25,7 +25,7 @@
                         <td>{{x.startDate}}</td>
                         <td>{{x.endDate}}</td>
                         <td>{{x.tBkngPrice}}</td>
-                        <td><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{forloop.counter}}">Delete</button></td>
+                        <td><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{forloop.counter}}">Cancel</button></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -44,12 +44,19 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            Are you Sure you want to delete {{x.name}}?
+                            Are you Sure you want to cancel the event {{x.name}} hosted by {{x.eveManager}}?
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancel</button>
-                            <a href="{{x.deleteIt}}"><button type="button" class="btn btn-danger">Delete</button></a>
-                        </div>
+                        <form action="{{x.deleteIt}}" method="post">
+                            {% csrf_token %}
+                            <div class=" modal-body mb-3">
+                                <label for="exampleFormControlTextarea1" class="form-label">Reason for cancellation</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" name="msgtext" rows="3"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Leave it</button>
+                                <button type="submit" class="btn btn-danger">Cancel the event</button>
+                            </div>
+                        </form>
                         </div>
                     </div>
                     </div>

@@ -198,3 +198,11 @@ class Receipt(models.Model):
 
 
     
+class Msgs(models.Model):
+    
+    msgText = models.TextField(null=True,blank=True)
+    recvr = models.ForeignKey(UserAccount,on_delete=models.CASCADE,null=True,blank=True)
+      
+
+    def __str__(self):
+        return f'To {self.recvr}'

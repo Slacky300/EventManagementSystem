@@ -7,14 +7,21 @@ from django.contrib import messages
 from . filters import VenueFilter
 from datetime import datetime
 from django.http import HttpResponse
+from . decorators import unauthenticated_user, allowed_users
 
 # Create your views here.
 def home(request):
     
-    return render(request,'main/land.html')
+    msg = Msgs.objects.filter(recvr = request.user)
+    context = {
+        'msg' : msg
+    }
+
+    return render(request,'main/land.html',context)
 
 
 @login_required(login_url='/login/')
+@allowed_users(allowed_roles=['Staff'])
 def addEventL(request):
 
     ints = {
@@ -51,6 +58,7 @@ def places(request):
 
 
 @login_required(login_url='/login/')
+@allowed_users(allowed_roles=['Users'])
 def createEvent(request,slug):
 
     venue = Venues.objects.get(slug = slug)
@@ -99,7 +107,8 @@ def createEvent(request,slug):
         return render(request,'main/forms/createEvent.html',context)
     
 
-
+@login_required(login_url='/login/')
+@allowed_users(allowed_roles=['Users'])
 def venueDetail(request, slug):
 
     venue = Venues.objects.get(slug = slug)
@@ -113,6 +122,7 @@ def venueDetail(request, slug):
 
 
 @login_required(login_url='/login/')
+@allowed_users(allowed_roles=['Users'])
 def eventCrude(request):
 
     events = CreatEvent.objects.filter(eveManager = request.user)
@@ -127,6 +137,7 @@ def eventCrude(request):
 
 
 @login_required(login_url='/login/')
+@allowed_users(allowed_roles=['Users'])
 def eventDelete(request,slug):
 
     events = CreatEvent.objects.get(slug = slug)
@@ -143,6 +154,7 @@ def eventDelete(request,slug):
 
 
 @login_required(login_url='/login/')
+@allowed_users(allowed_roles=['Users'])
 def eventEdit(request, slug):
     event = CreatEvent.objects.get(slug = slug)
     venue = Venues.objects.get(slug = event.venue.slug)
@@ -187,7 +199,7 @@ def eventEdit(request, slug):
 
 
 
-
+@unauthenticated_user
 def loginR(request):
 
     if request.method == 'POST':
@@ -209,7 +221,7 @@ def loginR(request):
     else:
         return render(request,'authentication/login.html')
 
-
+@unauthenticated_user
 def registerR(request):
 
 
@@ -241,6 +253,7 @@ def logoutR(request):
 
 
 @login_required(login_url='/login/')
+@allowed_users(allowed_roles=['Users'])
 def confrm(request,slug):
     eve = CreatEvent.objects.get(slug = slug)
     eve.status = True
@@ -249,6 +262,7 @@ def confrm(request,slug):
     return redirect('eventCrude')
 
 @login_required(login_url='/login/')
+@allowed_users(allowed_roles=['Users'])
 def payFor(request,slug):
 
 
@@ -272,6 +286,7 @@ def payFor(request,slug):
 
 
 @login_required(login_url='/login/')
+@allowed_users(allowed_roles=['Users'])
 def getStatus(request,slug):
 
     eventX = CreatEvent.objects.get(slug = slug)
@@ -285,6 +300,7 @@ def getStatus(request,slug):
     
 
 @login_required(login_url='/login/')
+@allowed_users(allowed_roles=['Users'])
 def availaibility(request,slug):
 
     if request.method == 'POST':
@@ -325,6 +341,7 @@ def availaibility(request,slug):
     
 
 @login_required(login_url='/login/')
+@allowed_users(allowed_roles=['Staff'])
 def regClients(request,slug):
 
     ven = Venues.objects.get(slug = slug)
@@ -337,6 +354,7 @@ def regClients(request,slug):
 
 
 @login_required(login_url='/login/')
+@allowed_users(allowed_roles=['Staff'])
 def viewVenues(request):
     ven = Venues.objects.filter(owner = request.user)
     context = {
@@ -345,21 +363,22 @@ def viewVenues(request):
     return render(request,'main/crud/addedVenues.html',context)
     
 
-@login_required(login_url='/login/')
-def deleteIt(request,slug):
+# @login_required(login_url='/login/')
+# @allowed_users(allowed_roles=['Staff'])
+# def deleteIt(request,slug):
 
-    eve = CreatEvent.objects.get(slug = slug)
-    ven = eve.venue.slug
-    print(ven)
-    try:
-        eve.delete()
-        messages.success(request,'Event successfully cancelled')
-        return redirect('/regClients/'+ven)
-    except:
-        messages.error(request,'Failed to delete')
-        return redirect('/regClients/'+ven)
+#     eve = CreatEvent.objects.get(slug = slug)
+#     ven = eve.venue.slug
+#     print(ven)
+#     try:
+#         eve.delete()
+#         messages.success(request,'Event successfully cancelled')
+#         return redirect('/regClients/'+ven)
+#     except:
+#         messages.error(request,'Failed to delete')
+#         return redirect('/regClients/'+ven)
     
-
+@unauthenticated_user
 def stfReg(request):
 
     if request.method == 'POST':
@@ -379,3 +398,34 @@ def stfReg(request):
 
     else:
         return render(request,'authentication/staffRegister.html')
+
+
+
+
+def sendMsgs(request,slug):
+
+    
+    if request.method == 'POST':
+
+        try:
+
+            eve = CreatEvent.objects.get(slug = slug)
+            recvr = eve.eveManager
+            ven = eve.venue.slug
+            msgtext = request.POST.get('msgtext')
+            print(msgtext)
+            print(recvr)
+            msg = Msgs(
+                msgText = msgtext,
+                recvr = recvr
+            )
+            msg.save()
+
+            eve.delete()
+
+            messages.success(request,'Event successfully cancelled')
+            return redirect('/regClients/'+ven)
+        
+        except:
+            messages.error(request,'Failed to delete')
+            return redirect('/regClients/'+ven)
