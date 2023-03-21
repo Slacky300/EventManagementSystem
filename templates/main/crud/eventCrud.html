@@ -5,7 +5,8 @@
         <div class="row">
             {% include 'components/messages.html' %}
             <h5><span>Welcome {{request.user}}, manage your events here: </span></h5>
-            <span class="d-flex justify-content-end align-items-left"><a href="{% url 'places' %}"><button class="btn btn-success">Add new event</button></a></span>
+            <span class="d-flex justify-content-end align-items-left"><a href="{% url 'places' %}"><button class="btn btn-success">Add new event</button></a>             <button class="btn btn-primary mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="far fa-envelope"></i></button>
+            </span>
             <table class="table mt-3">
                 <thead>
                   <tr>
@@ -103,5 +104,28 @@
                 </div>
             </div> 
         {% endfor %}
+
+
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Messages</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {% for x in msg %}
+                    <div class="modal-body">
+                        {{x.msgText}}
+                    </div>
+                {% endfor %}
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <script src="https://kit.fontawesome.com/30f827dc0d.js" crossorigin="anonymous"></script>
 
 {% endblock %}

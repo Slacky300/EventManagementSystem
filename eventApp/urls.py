@@ -18,6 +18,7 @@ urlpatterns = [
 
 
     path('checkAvial/<slug:slug>/',views.availaibility,name='avail'),
+    # path('checkAvial/<slug:slug>/',views.checkAlt,name='avail'),
 
 
 

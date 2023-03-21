@@ -6,18 +6,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from . filters import VenueFilter
 from datetime import datetime
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from . decorators import unauthenticated_user, allowed_users
 
 # Create your views here.
 def home(request):
     
-    msg = Msgs.objects.filter(recvr = request.user)
-    context = {
-        'msg' : msg
-    }
 
-    return render(request,'main/land.html',context)
+    return render(request,'main/land.html')
 
 
 @login_required(login_url='/login/')
@@ -126,8 +122,11 @@ def venueDetail(request, slug):
 def eventCrude(request):
 
     events = CreatEvent.objects.filter(eveManager = request.user)
+
+    msg = Msgs.objects.filter(recvr = request.user)
     context = {
         'eve' : events,
+        'msg' : msg,
     }
     return render(request,'main/crud/eventCrud.html',context)
 
@@ -309,28 +308,19 @@ def availaibility(request,slug):
         venueF = Venues.objects.get(slug = slug)
         event = CreatEvent.objects.filter(venue = venueF)
         dt = request.POST.get('avail')
+        print(f'----------------------{dt}')
         venueF.srchDate = dt
         venueF.save()
-        # a = event.startDate.strftime("%Y-%m-%d")
         avilb = True
         for x in event:
             if x.startDate.strftime("%Y-%m-%d") == dt:
                 avilb = False
         if  not avilb:
-            # print(f'Trueeeee------------{event.startDate}-----------')
-            # print(f'-----------------{dt}-----------------')
             venueF.availabililty = False
             venueF.save()
             return redirect('/venue/'+slug)
         
         else:
-            
-            # print(f'Falseeeeeee------------{type(event.startDate)}-----------')
-            # print(f'Falseeeeeee------------{event.startDate.strftime("%d-%m-%Y")}-----------')
-            # print(f'Falseeeeeee------------{type(event.startDate.strftime("%d-%m-%Y"))}-----------')
-            # print(f'--------------{dt}----------')
-            # print(f'--------------{type(dt)}------------')
-            # print(a==dt)
 
             venueF.availabililty = True
             venueF.save()
@@ -413,10 +403,9 @@ def sendMsgs(request,slug):
             recvr = eve.eveManager
             ven = eve.venue.slug
             msgtext = request.POST.get('msgtext')
-            print(msgtext)
-            print(recvr)
+            msg2 = f'From : {request.user} \n Dear {recvr}, {msgtext} \n'
             msg = Msgs(
-                msgText = msgtext,
+                msgText = msg2,
                 recvr = recvr
             )
             msg.save()
@@ -429,3 +418,31 @@ def sendMsgs(request,slug):
         except:
             messages.error(request,'Failed to delete')
             return redirect('/regClients/'+ven)
+
+
+# def checkAlt(request,slug):
+
+#     if request.method == 'GET':
+
+#         dat = request.GET.get('avbl')
+#         print(f'---------------------{dat}')
+#         avl = Venues.objects.get(slug = slug)
+#         print(avl)
+#         eve = CreatEvent.objects.filter(venue = avl)
+#         print(f'----------------------{eve}-----------------')
+
+#         for x in eve:
+#             if x.startDate.strftime("%Y-%m-%d") == dat:
+#                 data = {
+#                     'availaible' : False
+#                 }
+#                 print(f'----------------------Trueeeeeee----------------')
+#                 return JsonResponse(data)
+        
+#         data = {
+#             'availaible' : True
+#         }
+#         print(f'----------------------Falseeeeeeeee----------------')
+#         return JsonResponse(data)
+        
+    

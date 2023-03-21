@@ -1,0 +1,43 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body{
+    background: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)),url('/static/images/bgimg.jpeg');
+    background-repeat: none;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid black;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    
+}
+
+
+
+.heroText{
+    letter-spacing: 0.2em;
+    flex-direction: column;
+    
+}
+
+.landBg{
+    margin-top: 11em;
+}
+
+.lndBtn{
+
+    border: 2px solid #fff;
+    color: #fff;
+}
+.lndBtn:hover{
+    background-color: white;
+    border: 2px solid #000;
+    color: black;
+}

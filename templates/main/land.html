@@ -1,44 +1,24 @@
 {% extends 'index.html' %}
 {% block content %}
-
-
-    <div class="container mt-5">
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/land.css' %}">
+    <div class="container">
         {% include 'components/messages.html' %}
-        <div class="d-flex justify-content-end">
-            <button class="btn btn-primary mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="far fa-envelope"></i></button>
-        </div>
-        <div class="row d-flex justify-content-center align-items-center">
-            <div class="col-lg-6 d-flex justify-content-center align-items-center">
-                <a href="{% url 'places' %}"> <button class="btn btn-primary">Create an Event</button>
-                </a>
-               
-            </div>
+        <div class="row landBg d-flex justify-content-center align-items-center">
+              <div class="heroText d-flex justify-content-center align-items-center mt-5">
+                  <h2 class="mx-5 txt"><span>CREATE EVENTS</span></h2>
+                  <h2 class="txt"><span>MANAGE YOUR EVENTS</span></h2>
+                  <a href="{% url 'places' %}" class="lndBtnA"> <button class="btn lndBtn mt-2">Create an Event</button>
+                  </a>
+              </div>
+             
         </div>
     </div>
 
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Messages</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            {% for x in msg %}
-                <div class="modal-body">
-                    {{x.msgText}}
-                </div>
-            {% endfor %}
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      
+    
 
-    <script src="https://kit.fontawesome.com/30f827dc0d.js" crossorigin="anonymous"></script>
+
 
     
 
