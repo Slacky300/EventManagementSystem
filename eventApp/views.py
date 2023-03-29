@@ -8,6 +8,40 @@ from . filters import VenueFilter
 from datetime import datetime
 from django.http import HttpResponse, JsonResponse
 from . decorators import unauthenticated_user, allowed_users
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str, DjangoUnicodeDecodeError
+from . utils import generate_token
+from django.core.mail import EmailMessage
+from django.conf import settings
+import threading
+
+
+class EmailThread(threading.Thread):
+
+    def __init__(self,email):
+        self.email = email
+        threading.Thread.__init__(self)
+
+    def run(self):
+        self.email.send()
+
+
+
+def send_action_email(user, request):
+    current_site = get_current_site(request)
+    email_subject = 'Activate your account'
+    email_body = render_to_string('authentication/activate.html',{
+        'user': user,
+        'domain' : current_site,
+        'uid' : urlsafe_base64_encode(force_bytes(user.pk)),
+        'token' : generate_token.make_token(user)
+    })
+
+    email = EmailMessage(subject= email_subject, body=email_body,from_email = settings.EMIAL_FROM_USER,to = [user.email])
+    EmailThread(email).start()
+
 
 # Create your views here.
 def home(request):
@@ -207,6 +241,10 @@ def loginR(request):
         password = request.POST.get('password')
 
         user = authenticate(email = email, password = password)
+        if not user.is_emailVerified:
+                messages.error(request,f'Email is not verified please check your {email} inbox')
+                return render(request,'authentication/login.html')
+
 
         if user is not None:
             login(request,user)
@@ -238,6 +276,8 @@ def registerR(request):
             myuser = UserAccount.objects.create_user(email, name, password)
             myuser.save()
             messages.success(request,'User Created Successfully')
+            send_action_email(myuser,request)
+            messages.success(request,f'We have sent you an email on {email} check your inbox')
             return redirect('loginR')
 
     else:
@@ -446,3 +486,17 @@ def sendMsgs(request,slug):
 #         return JsonResponse(data)
         
     
+
+def activate_user(request,uidb64,token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = UserAccount.objects.get(pk=uid)
+    except Exception as e:
+        user = None
+
+    if user and generate_token.check_token(user,token):
+        user.is_emailVerified = True
+        user.save()
+        messages.success(request,'Email successfully verified')
+        return redirect('home')
+    return render(request,'authentication/activateFailed.html',{'user' : user })

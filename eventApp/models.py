@@ -52,6 +52,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     is_xUser = models.BooleanField(default=False)
     is_nUser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
+    is_emailVerified = models.BooleanField(default=False)
 
     objects = UserAccountManager()
 
