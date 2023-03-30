@@ -340,36 +340,36 @@ def getStatus(request,slug):
     return render(request,'main/crud/receipt.html',context)
     
 
-@login_required(login_url='/login/')
-@allowed_users(allowed_roles=['Users'])
-def availaibility(request,slug):
+# @login_required(login_url='/login/')
+# @allowed_users(allowed_roles=['Users'])
+# def availaibility(request,slug):
 
-    if request.method == 'POST':
+#     if request.method == 'POST':
 
 
-        venueF = Venues.objects.get(slug = slug)
-        event = CreatEvent.objects.filter(venue = venueF)
-        dt = request.POST.get('avail')
-        print(f'----------------------{dt}---------------')
-        venueF.srchDate = dt
-        venueF.save()
-        avilb = True
-        for x in event:
-            if x.startDate.strftime("%Y-%m-%d") == dt:
-                avilb = False
-        if  not avilb:
-            venueF.availabililty = False
-            venueF.save()
-            return redirect('/venue/'+slug)
+#         venueF = Venues.objects.get(slug = slug)
+#         event = CreatEvent.objects.filter(venue = venueF)
+#         dt = request.POST.get('avail')
+#         print(f'----------------------{dt}---------------')
+#         venueF.srchDate = dt
+#         venueF.save()
+#         avilb = True
+#         for x in event:
+#             if x.startDate.strftime("%Y-%m-%d") == dt:
+#                 avilb = False
+#         if  not avilb:
+#             venueF.availabililty = False
+#             venueF.save()
+#             return redirect('/venue/'+slug)
         
-        else:
+#         else:
 
-            venueF.availabililty = True
-            venueF.save()
+#             venueF.availabililty = True
+#             venueF.save()
        
-            return redirect('/venue/'+slug)
-    else :
-        return redirect('/venue/'+slug)
+#             return redirect('/venue/'+slug)
+#     else :
+#         return redirect('/venue/'+slug)
     
 
 @login_required(login_url='/login/')
@@ -503,21 +503,6 @@ def activate_user(request,uidb64,token):
         return redirect('home')
     return render(request,'authentication/activateFailed.html',{'user' : user })
 
-def checkAt(request,slug):
-
-    if request.method == 'GET':
-
-
-        venueF = Venues.objects.get(slug = slug)
-        event = CreatEvent.objects.filter(venue = venueF)
-        avil = []
-        for x in event:
-            avil.append(x.startDate)
-        hello = {
-            'number' : 'hello'
-        }
-        return redirect('home')
-    
 
 
 class Checkat(View):

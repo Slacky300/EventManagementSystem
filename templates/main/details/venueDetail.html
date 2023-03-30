@@ -103,7 +103,7 @@
                                 <div class="d-flex align-items-right">
                                     <form action="{{venue.ajx}}" method="get" id="post-form">
                                         
-                                        <input type="date" name="avail" id="stDate"/>
+                                        <input type="date" name="avail" id="stDate" min="2023-03-31"/>
                                 
                                         <button class="btn btn-primary mx-3" type="button" onclick="getDateAvailabiliy()">Check</button>
                                     </form>
@@ -117,16 +117,10 @@
                                 <h6>{{venue.desc}}</h6>
                                 <div class="price d-flex flex-row align-items-center"> 
 
-                                    {% if venue.availabililty == True %}
-
-                                        {% if not venue.srchDate == None %}
-                                            <span class="act-price" id="available" style="color: green;">Available on {{venue.srchDate}}</span>
-                                        {% endif %}
-                                    {% else %}
-                                        {% if not venue.srchDate == None %}
-                                            <span class="act-price">Not available on {{venue.srchDate}}</span>
-                                        {% endif %}
-                                    {% endif %}
+                                
+                                    <span class="act-price" id="available" style="color: blue;">Check for availability first</span>
+                                        
+                                    
                                     
                                 </div>
                             </div>
@@ -135,19 +129,14 @@
                                 <h6 class="text-uppercase">Capacity : <span>{{venue.cpcty}}</span></h6> 
                                 <h6 class="text-uppercase">Mobile No. : <span>{{venue.mobNo}}</span></h6> 
                             </div>
-                            {% if venue.availabililty == True %}
-                            <a href="{{venue.crEvent}}" id="linkToRegister" style="text-decoration: none; color: #fff;">
+                            
+                            <a href="#" id="linkToRegister" style="text-decoration: none; color: #fff;">
                                 <div class="cart mt-4 align-items-center" id="btnDiv"> <button
-                                    class="btn btn-danger text-uppercase mr-2 px-4" id="btnText">Reserve Now</button> <i
+                                    class="btn btn-danger text-uppercase mr-2 px-4" id="btnText">Check for availability</button> <i
                                     class="fa fa-heart text-muted"></i> <i class="fa fa-share-alt text-muted"></i>
                                 </div>
                             </a>
-                            {% else %}
-                            <div class="cart mt-4 align-items-center"> <button
-                                class="btn btn-danger text-uppercase mr-2 px-4">Reserve Later</button> <i
-                                class="fa fa-heart text-muted"></i> <i class="fa fa-share-alt text-muted"></i>
-                            </div>
-                            {% endif %}
+                           
                             <p id="jst"></p>
                             
                         </div>
@@ -158,6 +147,18 @@
     </div>
 </div>
 <script>
+
+  window.onload = function() {
+    let date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+
+    let currentDate = `${year}-${month}-${day}`;
+
+    document.getElementById('stDate').min = currentDate
+
+  }
     function change_image(image) {
 
         var container = document.getElementById("main-image");
