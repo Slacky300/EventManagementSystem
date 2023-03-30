@@ -30,6 +30,7 @@ urlpatterns = [
     path('stffRegister/',views.stfReg,name='staff'),
 
 
-    path('activate-user/<uidb64>/<token>',views.activate_user,name='activate')
+    path('activate-user/<uidb64>/<token>',views.activate_user,name='activate'),
+    path('checkDate/<slug:slug>/',views.Checkat.as_view(),name='check'),
 
 ]

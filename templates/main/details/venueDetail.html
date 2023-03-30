@@ -101,11 +101,11 @@
                                 <a href="{% url 'places' %}" style="text-decoration: none; color: #000;"><div class="d-flex align-items-center"> <i class="fa fa-long-arrow-left"></i> <span
                                     class="ml-1">Back</span> </div> </a>
                                 <div class="d-flex align-items-right">
-                                    <form action="{{venue.checkAvail}}" method="post" id="post-form">
-                                        {% csrf_token %}
+                                    <form action="{{venue.ajx}}" method="get" id="post-form">
+                                        
                                         <input type="date" name="avail" id="stDate"/>
                                 
-                                        <button class="btn btn-primary mx-3" type="submit">Check</button>
+                                        <button class="btn btn-primary mx-3" type="button" onclick="getDateAvailabiliy()">Check</button>
                                     </form>
               
                                 
@@ -120,7 +120,7 @@
                                     {% if venue.availabililty == True %}
 
                                         {% if not venue.srchDate == None %}
-                                            <span class="act-price" style="color: green;">Available on {{venue.srchDate}}</span>
+                                            <span class="act-price" id="available" style="color: green;">Available on {{venue.srchDate}}</span>
                                         {% endif %}
                                     {% else %}
                                         {% if not venue.srchDate == None %}
@@ -136,9 +136,9 @@
                                 <h6 class="text-uppercase">Mobile No. : <span>{{venue.mobNo}}</span></h6> 
                             </div>
                             {% if venue.availabililty == True %}
-                            <a href="{{venue.crEvent}}" style="text-decoration: none; color: #fff;">
-                                <div class="cart mt-4 align-items-center"> <button
-                                    class="btn btn-danger text-uppercase mr-2 px-4">Reserve Now</button> <i
+                            <a href="{{venue.crEvent}}" id="linkToRegister" style="text-decoration: none; color: #fff;">
+                                <div class="cart mt-4 align-items-center" id="btnDiv"> <button
+                                    class="btn btn-danger text-uppercase mr-2 px-4" id="btnText">Reserve Now</button> <i
                                     class="fa fa-heart text-muted"></i> <i class="fa fa-share-alt text-muted"></i>
                                 </div>
                             </a>
@@ -148,6 +148,7 @@
                                 class="fa fa-heart text-muted"></i> <i class="fa fa-share-alt text-muted"></i>
                             </div>
                             {% endif %}
+                            <p id="jst"></p>
                             
                         </div>
                     </div>
@@ -176,6 +177,75 @@
 
     });
 
+
+    function dtToString(){
+
+        let inpDate = document.getElementById('stDate').value;
+        let strDate = inpDate.toString();
+        let newd = strDate.padStart(strDate.length+1,'"');
+        let ltd = newd.padEnd(newd.length+1,'"');
+        return ltd;
+    }
+
+    async function getDateAvailabiliy(){
+
+        let inDate = dtToString()
+        let slug = '{{venue.slug}}';
+        let url = `/checkDate/${slug}/`;
+        let response = await fetch(url,{
+            method: 'get',
+            headers : {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        let data = await response.json();
+        let ty = data.slice(1,data.length-1);
+        let str = ty.replace(" ","")
+        let ary = str.split(",");
+        let flag = 1;
+
+        
+        for(var i = 0;i<ary.length;i++){
+            
+            if(inDate===ary[i]){
+                removeAvailability();
+                flag = 0;
+                break;
+            }
+        }
+
+        if (flag){
+            addAvailability()
+        }
+
+    }
+
+
+    function addAvailability(){
+        let available = document.getElementById('available');
+        let inDate = dtToString();
+        let linkToRegister = document.getElementById('linkToRegister')
+        let btnText = document.getElementById('btnText')
+ 
+        available.innerHTML =  `Available on ${inDate}`;
+        available.style.color = 'green';
+        btnText.innerHTML = "Reserve Now"
+        linkToRegister.href = "{{venue.crEvent}}"
+        
+    }
+
+    function removeAvailability(){
+        let available = document.getElementById('available');
+        let inDate = dtToString();
+        let linkToRegister = document.getElementById('linkToRegister')
+        let btnText = document.getElementById('btnText')
+        available.innerHTML =  `Not available on ${inDate}`;
+        available.style.color = 'red';
+        linkToRegister.href = "#"
+        btnText.innerHTML = "Reserve later"
+    }
 
 
 
