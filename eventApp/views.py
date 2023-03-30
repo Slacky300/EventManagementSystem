@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, redirect
 from . forms import EventPlaceFrm, CreateEventFrm
 from . models import *
@@ -16,6 +17,7 @@ from . utils import generate_token
 from django.core.mail import EmailMessage
 from django.conf import settings
 import threading
+from django.views import View
 
 
 class EmailThread(threading.Thread):
@@ -39,7 +41,7 @@ def send_action_email(user, request):
         'token' : generate_token.make_token(user)
     })
 
-    email = EmailMessage(subject= email_subject, body=email_body,from_email = settings.EMIAL_FROM_USER,to = [user.email])
+    email = EmailMessage(subject= email_subject, body=email_body,from_email = settings.EMAIL_HOST_USER,to = [user.email])
     EmailThread(email).start()
 
 
@@ -348,7 +350,7 @@ def availaibility(request,slug):
         venueF = Venues.objects.get(slug = slug)
         event = CreatEvent.objects.filter(venue = venueF)
         dt = request.POST.get('avail')
-        print(f'----------------------{dt}')
+        print(f'----------------------{dt}---------------')
         venueF.srchDate = dt
         venueF.save()
         avilb = True
@@ -500,3 +502,40 @@ def activate_user(request,uidb64,token):
         messages.success(request,'Email successfully verified')
         return redirect('home')
     return render(request,'authentication/activateFailed.html',{'user' : user })
+
+def checkAt(request,slug):
+
+    if request.method == 'GET':
+
+
+        venueF = Venues.objects.get(slug = slug)
+        event = CreatEvent.objects.filter(venue = venueF)
+        avil = []
+        for x in event:
+            avil.append(x.startDate)
+        hello = {
+            'number' : 'hello'
+        }
+        return redirect('home')
+    
+
+
+class Checkat(View):
+
+    def get(self, request, slug, *args, **kwargs):
+
+        venueF = Venues.objects.get(slug = slug)
+        event = CreatEvent.objects.filter(venue = venueF)
+        avil = []
+        for x in event:
+            a = x.startDate.strftime("%Y-%m-%d")
+            avil.append(a)
+        
+        
+
+        return JsonResponse(json.dumps(avil),safe=False)
+
+
+
+    
+        

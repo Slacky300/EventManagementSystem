@@ -101,11 +101,11 @@
                                 <a href="{% url 'places' %}" style="text-decoration: none; color: #000;"><div class="d-flex align-items-center"> <i class="fa fa-long-arrow-left"></i> <span
                                     class="ml-1">Back</span> </div> </a>
                                 <div class="d-flex align-items-right">
-                                    <form action="{{venue.checkAvail}}" method="post" id="post-form">
-                                        {% csrf_token %}
+                                    <form action="{{venue.ajx}}" method="get" id="post-form">
+                                        
                                         <input type="date" name="avail" id="stDate"/>
                                 
-                                        <button class="btn btn-primary mx-3" type="submit">Check</button>
+                                        <button class="btn btn-primary mx-3" type="button" onclick="getDateAvailabiliy()">Check</button>
                                     </form>
               
                                 
@@ -148,6 +148,7 @@
                                 class="fa fa-heart text-muted"></i> <i class="fa fa-share-alt text-muted"></i>
                             </div>
                             {% endif %}
+                            <p id="jst"></p>
                             
                         </div>
                     </div>
@@ -175,6 +176,25 @@
 
 
     });
+
+    async function getDateAvailabiliy(){
+        let slug = '{{venue.slug}}'
+        let url = `/checkDate/${slug}/`
+        let response = await fetch(url,{
+            method: 'get',
+            headers : {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json'
+            }
+        })
+        let data = await response.json()
+        let txt = document.getElementById('jst')
+        let ty = data.slice(1,data.length-1)
+        let ary = ty.split(",")
+        
+        console.log(ary[1])
+
+    }
 
 
 

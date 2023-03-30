@@ -116,6 +116,9 @@ class Venues(models.Model):
 
         return f'/regClients/{self.slug}/'
     
+    def ajx(self):
+        return f'/checkDate/{self.slug}/'
+    
     
 
 
