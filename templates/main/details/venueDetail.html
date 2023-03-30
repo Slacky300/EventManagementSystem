@@ -178,6 +178,11 @@
     });
 
     async function getDateAvailabiliy(){
+
+        let inpDate = document.getElementById('stDate').value
+        let strDate = inpDate.toString()
+        let newd = strDate.padStart(strDate.length+1,'"')
+        let ltd = newd.padEnd(newd.length+1,'"')
         let slug = '{{venue.slug}}'
         let url = `/checkDate/${slug}/`
         let response = await fetch(url,{
@@ -192,7 +197,14 @@
         let ty = data.slice(1,data.length-1)
         let ary = ty.split(",")
         
-        console.log(ary[1])
+        for(var i = 0;i<ary.length;i++){
+            if(ltd===ary[i]){
+                alert('Date matched')
+                break;
+            }else{
+                console.log('lol')
+            }
+        }
 
     }
 
