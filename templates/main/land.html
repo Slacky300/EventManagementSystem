@@ -8,8 +8,13 @@
               <div class="heroText d-flex justify-content-center align-items-center mt-5">
                   <h2 class="mx-5 txt"><span>CREATE EVENTS</span></h2>
                   <h2 class="txt"><span>MANAGE YOUR EVENTS</span></h2>
-                  <a href="{% url 'places' %}" class="lndBtnA"> <button class="btn lndBtn mt-2">Create an Event</button>
-                  </a>
+                  {% if request.user.is_nUser %}
+                    <a href="{% url 'places' %}" class="lndBtnA"> <button class="btn lndBtn mt-2">Create an Event</button>
+                    </a>
+                    {% else %}
+                        <a href="{% url 'venues' %}" class="lndBtnA"> <button class="btn lndBtn mt-2">Manage Venues</button>
+                        </a>
+                    {% endif %}
               </div>
              
         </div>

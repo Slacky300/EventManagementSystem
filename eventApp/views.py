@@ -57,7 +57,7 @@ def home(request):
 def addEventL(request):
 
     ints = {
-        'owner' : request.user.name,
+        'owner' : request.user,
     }
 
     frm = EventPlaceFrm(initial=ints)
@@ -71,9 +71,10 @@ def addEventL(request):
             if frm.is_valid():
                 frm.save()
                 messages.success(request,'Submitted Successfully')
-                return redirect('AddEventLct')
+                return redirect('venues')
         except:
             messages.error(request,'Failed to submit')
+            return render(request,'main/forms/addEventLocation.html',context)
 
     return render(request,'main/forms/addEventLocation.html',context)
 
@@ -448,10 +449,11 @@ def stfReg(request):
 
             myuser = UserAccount.objects.xUser(email, name, password)
             myuser.save()
+            send_action_email(myuser,request)
             group = Group.objects.get(name = 'Staff')
             newUser = UserAccount.objects.get(email = email)
             newUser.groups.add(group)
-            messages.success(request,'Staff account created successfully')
+            messages.success(request,f'We have sent you an email on {email} check your inbox')
             return redirect('loginR')
 
     else:
