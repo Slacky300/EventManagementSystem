@@ -12,6 +12,9 @@
         #id_eveManager, #priceContainer{
             display: none;
         }
+        #id_venue{
+            pointer-events: none;
+        }
         .vImg{
             -webkit-filter: drop-shadow(5px 5px 5px #666666);
             filter: drop-shadow(5px 5px 5px #666666);
@@ -49,7 +52,7 @@
         {% include 'components/messages.html' %}
 
         <div>
-            <h3 class="hed">{{venue.name}} ---- Max capacity : {{venue.cpcty}}<span id="priceEle"></span></h3>
+            <h3 class="hed">{{venue.name}} || Max capacity : {{venue.cpcty}} person<span id="priceEle"></span></h3>
         </div>
 
         <div class="row">

@@ -74,12 +74,12 @@ class CreateEventFrm(forms.ModelForm):
             'startDate' : 'Event start date',
             'endDate' : 'Event end date',
             'nGuest' : 'Number of guests',
-            'venue' : 'Select an event venue',
+            'venue' : 'Selected event venue',
             'img' : 'Upload an image',
             'eveManager' : '',
             'startTime' : 'Time of event',
             'endTime' : 'Time the event will end',
-            'tBkngPrice' : 'Total Booking Price',
+            'tBkngPrice' : '',
 
         }
 

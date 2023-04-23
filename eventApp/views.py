@@ -67,7 +67,7 @@ def addEventL(request):
     if request.method == 'POST':
         try:
 
-            frm = EventPlaceFrm(request.POST,request.FILES)
+            frm = EventPlaceFrm(request.POST,request.FILES,initial=ints)
             if frm.is_valid():
                 frm.save()
                 messages.success(request,'Submitted Successfully')

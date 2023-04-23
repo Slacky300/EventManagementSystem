@@ -98,7 +98,7 @@ class Venues(models.Model):
     owner = models.ForeignKey(UserAccount,on_delete=models.CASCADE,null=True,blank=True)
 
     def __str__(self):
-        return f'{self.name} Availaibility - {self.availabililty}'
+        return f'{self.name}'
     
     def get_absolute_url(self):
 
