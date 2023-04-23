@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 from django.contrib.messages import constants as messages
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -79,10 +80,16 @@ WSGI_APPLICATION = 'event.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'DATABASE_URL' : "postgresql://postgres:BBUFGFFna0IhTNIE8t1v@containers-us-west-129.railway.app:5608/railway",
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'BBUFGFFna0IhTNIE8t1v',
+        'HOST': 'containers-us-west-129.railway.app',
+        'PORT': '5608',
     }
 }
+
 
 
 # Password validation
