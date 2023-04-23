@@ -161,9 +161,11 @@ EMIAL_FROM_USER = 'novag388@gmail.com'
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-if DEBUG:
-  STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-else:
-  STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles_build','static')
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+# if DEBUG:
+#   STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# else:
+#   STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles_build','static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
