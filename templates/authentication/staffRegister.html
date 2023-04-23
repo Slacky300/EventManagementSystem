@@ -27,7 +27,7 @@
                 <div class="aaloo mt-4">
                     <h4>Sign Up Now</h4>
                     <a href="{% url 'register' %}">
-                        <button class="btn btn-primary me-3">User</button>
+                        <button class="btn btn-dark me-3">User</button>
                     </a>
                     
                 </div>
@@ -52,12 +52,13 @@
                     </div>
 
                     <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Sign Up</button>
-                    
-                    <span class="mx-3">OR</span>
-                    
-                    <a href="{% url 'loginR' %}"><button type="button" class="btn btn-primary btn-lg btn-block">Login Now</button></a>
-                    
+                    <div class="d-flex justify-content-center align-items-center mb-5" >
+                        <button type="submit" class="btn btn-dark btn-lg btn-block">Sign Up</button>
+                        
+                        <span class="mx-3">OR</span>
+                        
+                        <a href="{% url 'loginR' %}"><button type="button" class="btn btn-dark btn-lg btn-block">Login Now</button></a>
+                    </div>
 
                 </form>
             </div>

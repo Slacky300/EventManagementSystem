@@ -151,17 +151,17 @@ MESSAGE_TAGS = {
 
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'rehman.khan.300a@gmail.com'
-EMAIL_HOST_PASSWORD = 'ftpzdktuhrmmsved'
-EMIAL_FROM_USER = 'novag388@gmail.com'
+EMAIL_HOST_USER = 'eventmanagement313@gmail.com'
+EMAIL_HOST_PASSWORD = 'phjkhetorolaayhd'
 
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATICFILES_DIRS = os.path.join(BASE_DIR,'static'),
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 # if DEBUG:
 #   STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]

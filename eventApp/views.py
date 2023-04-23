@@ -18,7 +18,7 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 import threading
 from django.views import View
-
+from django.contrib.auth.models import Group
 
 class EmailThread(threading.Thread):
 
@@ -243,6 +243,11 @@ def loginR(request):
         password = request.POST.get('password')
 
         user = authenticate(email = email, password = password)
+
+        if user is None:
+            messages.error(request,'Provided email or password is incorrect')
+            return render(request,'authentication/login.html')
+
         if not user.is_emailVerified:
                 messages.error(request,f'Email is not verified please check your {email} inbox')
                 return render(request,'authentication/login.html')
@@ -270,14 +275,24 @@ def registerR(request):
         name = request.POST.get('name')
         password = request.POST.get('password')
 
+        if email == "" or name == "" or password == "":
+            messages.error(request,"Please provide all the details for registration")
+            return render(request,'authentication/register.html')
+        
+        if len(password)<6:
+            messages.error(request,"Password length should be more than 6 characters")
+            return render(request,'authentication/register.html')
+
         if UserAccount.objects.filter(email=email).exists():
             messages.warning(request,'User with this email already exists')
             return render(request,'authentication/register.html')
         else:
-
+           
             myuser = UserAccount.objects.create_user(email, name, password)
             myuser.save()
-            messages.success(request,'User Created Successfully')
+            newUser = UserAccount.objects.get(email = email)
+            group = Group.objects.get(name='Users')
+            newUser.groups.add(group)
             send_action_email(myuser,request)
             messages.success(request,f'We have sent you an email on {email} check your inbox')
             return redirect('loginR')
@@ -418,6 +433,14 @@ def stfReg(request):
         name = request.POST.get('name')
         password = request.POST.get('password')
 
+        if email == "" or name == "" or password == "":
+            messages.error(request,"Please provide all the details for registration")
+            return render(request,'authentication/register.html')
+        
+        if len(password)<6:
+            messages.error(request,"Password length should be more than 6 characters")
+            return render(request,'authentication/register.html')
+
         if UserAccount.objects.filter(email=email).exists():
             messages.warning(request,'User with this email already exists')
             return render(request,'authentication/register.html')
@@ -425,6 +448,9 @@ def stfReg(request):
 
             myuser = UserAccount.objects.xUser(email, name, password)
             myuser.save()
+            group = Group.objects.get(name = 'Staff')
+            newUser = UserAccount.objects.get(email = email)
+            newUser.groups.add(group)
             messages.success(request,'Staff account created successfully')
             return redirect('loginR')
 
