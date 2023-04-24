@@ -72,8 +72,9 @@ def addEventL(request):
                 frm.save()
                 messages.success(request,'Submitted Successfully')
                 return redirect('venues')
-        except:
+        except Exception as e:
             messages.error(request,'Failed to submit')
+            context['e'] = e
             return render(request,'main/forms/addEventLocation.html',context)
 
     return render(request,'main/forms/addEventLocation.html',context)
