@@ -10,6 +10,7 @@
 
     <div class="container my-5">
         {% include 'components/messages.html' %}
+        <h1>Error : {e}</h1>
         <form method="post" action="{% url 'AddEventLct' %}" class=""  enctype="multipart/form-data">
             {% csrf_token %}
             {{ form|crispy }}
