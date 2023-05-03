@@ -160,7 +160,7 @@ EMAIL_HOST_PASSWORD = 'phjkhetorolaayhd'
 
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
+MEDIA_URL = '/tmp/'
 STATICFILES_DIRS = os.path.join(BASE_DIR,'static'),
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 # if DEBUG:
@@ -168,4 +168,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 # else:
 #   STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles_build','static')
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'tmp')
