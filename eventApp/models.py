@@ -82,7 +82,7 @@ class Venues(models.Model):
 
     name = models.CharField(max_length=200)
     desc = models.CharField(max_length=300)
-    img = models.ImageField(upload_to='tmp/venues/', null=True, blank=True)
+    img = models.ImageField(upload_to='venues/', null=True, blank=True)
     cpcty = models.PositiveIntegerField()
     mincpcty = models.PositiveIntegerField(blank=True,null=True)
     bkngPrice = models.PositiveIntegerField()
