@@ -81,12 +81,12 @@ WSGI_APPLICATION = 'event.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'DATABASE_URL' : "postgresql://postgres:BBUFGFFna0IhTNIE8t1v@containers-us-west-129.railway.app:5608/railway",
+        'DATABASE_URL' : "postgresql://postgres:efh2J43vMibKJBbVz0lD@containers-us-west-69.railway.app:6388/railway",
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'BBUFGFFna0IhTNIE8t1v',
-        'HOST': 'containers-us-west-129.railway.app',
-        'PORT': '5608',
+        'PASSWORD': 'efh2J43vMibKJBbVz0lD',
+        'HOST': 'containers-us-west-69.railway.app',
+        'PORT': '6388',
     }
 }
 
@@ -161,7 +161,7 @@ EMAIL_HOST_PASSWORD = 'phjkhetorolaayhd'
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/tmp/'
-STATICFILES_DIRS = os.path.join(BASE_DIR,'static'),
+STATICFILES_DIRS = os.path.join(BASE_DIR,'staticfiles_build','static'),
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 # if DEBUG:
 #   STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
